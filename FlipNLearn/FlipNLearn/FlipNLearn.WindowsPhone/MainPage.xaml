@@ -3,12 +3,59 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:FlipNLearn"
+    xmlns:data="using:FlipNLearn.DataModels"
+    xmlns:converter="using:FlipNLearn.ValueConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Page.DataContext>
+        <data:DataModel />
+    </Page.DataContext>
 
+    <d:Page.DataContext>
+        <data:SampleDataModel />
+    </d:Page.DataContext>
+    
+    <Page.Resources>
+        <converter:ListToCountConverter x:Key="ListToCountConverter" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="7*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Background="#0C6398">
+            <ListView ItemsSource="{Binding Sets}" x:Name="itemListView">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel HorizontalAlignment="Stretch" Background="#3399FF">
+                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" FontSize="17"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3,0,5">
+                                <TextBlock Text="{Binding Decks.Count}" HorizontalAlignment="Center" FontSize="11" />
+                                <TextBlock Text="Decks" Margin="5,0,0,0" FontFamily="Global User Interface" FontSize="11"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <Grid Grid.Column="1" Background="#006BB2">
+            <TextBlock Text="{Binding SelectedSet.Name}" />
+            <TextBlock Text="{Binding SelectedDeck.Name}" Margin="0,20,0,0" />
+        </Grid>
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton />
+            <AppBarButton />
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

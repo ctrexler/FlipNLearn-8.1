@@ -15,12 +15,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Data Models\Card.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data Models\Deck.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data Models\Set.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data Models\Subset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataModels\Card.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataModels\DataModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataModels\Deck.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataModels\SampleDataModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataModels\Set.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataModels\Subset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\ListToCountConverter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)View Models\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ViewModel\" />
   </ItemGroup>
 </Project>
