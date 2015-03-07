@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace FlipNLearn.DataModels
@@ -7,6 +8,6 @@ namespace FlipNLearn.DataModels
     public class Subset
     {
         public string Name { get; set; }
-        public List<Deck> decks { get; set; }
+        public ObservableCollection<Deck> decks { get; set; }
     }
 }

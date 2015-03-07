@@ -47,7 +47,7 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        <Grid Grid.Column="1" Background="#006BB2">
+        <Grid Grid.Column="1" Background="#006BB2" Tapped="Grid_Tapped">
             <TextBlock Text="{Binding SelectedSet.Name}" />
             <TextBlock Text="{Binding SelectedDeck.Name}" Margin="0,20,0,0" />
         </Grid>

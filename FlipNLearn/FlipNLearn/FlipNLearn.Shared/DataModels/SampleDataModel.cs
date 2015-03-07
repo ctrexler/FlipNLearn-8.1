@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using Windows.UI;
 
@@ -9,16 +10,16 @@ namespace FlipNLearn.DataModels
     {
         public SampleDataModel() : base()
         {
-            Sets = new List<Set>()
+            Sets = new ObservableCollection<Set>()
             {
                 new Set() {
                     Name = "Geography",
                     Color = Colors.Red,
-                    Decks = new List<Deck>() {
+                    Decks = new ObservableCollection<Deck>() {
                         new Deck() {
                             Name = "Sample Deck",
                             Color = Colors.Black,
-                            Cards = new List<Card>() {
+                            Cards = new ObservableCollection<Card>() {
                                 new Card() {
                                     FrontText="Test",
                                     BackText="Test"
