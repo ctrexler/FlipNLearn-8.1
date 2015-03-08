@@ -20,7 +20,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Deck.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\SampleDataModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Set.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataModels\SQLiteFunc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Subset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SQLite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SQLiteAsync.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\ListToCountConverter.cs" />
   </ItemGroup>
 </Project>

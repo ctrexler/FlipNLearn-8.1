@@ -17,7 +17,7 @@
     <d:Page.DataContext>
         <data:SampleDataModel />
     </d:Page.DataContext>
-    
+
     <Page.Resources>
         <converter:ListToCountConverter x:Key="ListToCountConverter" />
     </Page.Resources>
@@ -47,14 +47,14 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        <Grid Grid.Column="1" Background="#006BB2" Tapped="Grid_Tapped">
+        <Grid Grid.Column="1" Background="#006BB2">
             <TextBlock Text="{Binding SelectedSet.Name}" />
             <TextBlock Text="{Binding SelectedDeck.Name}" Margin="0,20,0,0" />
         </Grid>
     </Grid>
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton />
+            <AppBarButton x:Name="AddSetButton" Click="AddSetButton_Click" Icon="DockLeft" />
             <AppBarButton />
         </CommandBar>
     </Page.BottomAppBar>

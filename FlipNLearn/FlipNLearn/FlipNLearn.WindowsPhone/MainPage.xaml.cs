@@ -46,7 +46,7 @@ namespace FlipNLearn
             // this event is handled for you.
         }
 
-        private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
+        private void AddSetButton_Click(object sender, RoutedEventArgs e)
         {
             DataModel.AddSet();
         }
