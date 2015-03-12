@@ -1,11 +1,12 @@
 ﻿using FlipNLearn.DataModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -44,11 +45,22 @@ namespace FlipNLearn
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
+
+            // JSON.NET
+            //DataModel.Sets = new ObservableCollection<Set>()
+            //{
+            //    new Set() {
+            //        Name = "Calculus",
+            //        Color = Colors.Red
+            //    }
+            //};
+
+            JsonFunc.Deserialize();
         }
 
         private void AddSetButton_Click(object sender, RoutedEventArgs e)
         {
-            DataModel.AddSet();
+            JsonFunc.AddSet(new Set { Name = "Geography", Color = Colors.Red });
         }
     }
 }

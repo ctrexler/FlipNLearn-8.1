@@ -15,11 +15,11 @@ namespace FlipNLearn.DataModels
                 new Set() {
                     Name = "Geography",
                     Color = Colors.Red,
-                    Decks = new ObservableCollection<Deck>() {
+                    Decks = new List<Deck>() {
                         new Deck() {
                             Name = "Sample Deck",
                             Color = Colors.Black,
-                            Cards = new ObservableCollection<Card>() {
+                            Cards = new List<Card>() {
                                 new Card() {
                                     FrontText="Test",
                                     BackText="Test"

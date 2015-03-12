@@ -8,8 +8,9 @@ namespace FlipNLearn.DataModels
 {
     public class Deck
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public Color Color { get; set; }
-        public ObservableCollection<Card> Cards { get; set; }
+        public List<Card> Cards { get; set; }
     }
 }

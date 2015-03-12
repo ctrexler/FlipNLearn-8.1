@@ -7,9 +7,10 @@ namespace FlipNLearn.DataModels
 {
     public class Card
     {
+        public int Id { get; set; }
         public string FrontText { get; set; }
         public string BackText { get; set; }
-        public BitmapImage FrontPic { get; set; }
-        public BitmapImage BackPic { get; set; }
+        public byte[] FrontPic { get; set; }
+        public byte[] BackPic { get; set; }
     }
 }
