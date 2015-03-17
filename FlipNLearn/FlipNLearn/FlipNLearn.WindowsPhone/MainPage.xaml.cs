@@ -1,5 +1,6 @@
 ﻿using FlipNLearn.DataModels;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -24,9 +25,14 @@ namespace FlipNLearn
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private ViewModelMain vm;
+
         public MainPage()
         {
             this.InitializeComponent();
+
+            vm = new ViewModelMain();
+            this.DataContext = vm;
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
@@ -58,9 +64,20 @@ namespace FlipNLearn
             JsonFunc.Deserialize();
         }
 
+
+        private void Set_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            vm.SelectedSet = (Set)ListViewSets.SelectedItem;
+        }
+
+        private void AddDeckButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.AddDeck();
+        }
+
         private void AddSetButton_Click(object sender, RoutedEventArgs e)
         {
-            JsonFunc.AddSet(new Set { Name = "Geography", Color = Colors.Red });
+            vm.AddSet();
         }
     }
 }

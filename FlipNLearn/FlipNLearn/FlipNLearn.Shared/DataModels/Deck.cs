@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace FlipNLearn.DataModels
 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlipNLearn.DataModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -132,6 +133,9 @@ namespace FlipNLearn
 
             // TODO: Save application state and stop any background activity
             deferral.Complete();
+
+            //JSON Deserialization
+            JsonFunc.Serialize();
         }
     }
 }

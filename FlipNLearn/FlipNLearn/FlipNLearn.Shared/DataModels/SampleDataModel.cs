@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace FlipNLearn.DataModels
 {
@@ -15,7 +16,7 @@ namespace FlipNLearn.DataModels
                 new Set() {
                     Name = "Geography",
                     Color = Colors.Red,
-                    Decks = new List<Deck>() {
+                    Decks = new ObservableCollection<Deck>() {
                         new Deck() {
                             Name = "Sample Deck",
                             Color = Colors.Black,

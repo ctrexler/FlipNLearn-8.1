@@ -20,9 +20,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Deck.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\HelperFunc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\JsonFunc.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataModels\LexFunc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\SampleDataModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModels\Set.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\ListToCountConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\ColorToBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModelMain.cs" />
   </ItemGroup>
 </Project>
