@@ -115,9 +115,8 @@ namespace FlipNLearn
 
         public void AddSet()
         {
-            JsonFunc.AddSet(new Set { Name = NameBox, Color = Colors.Green }, Sets);
+            JsonFunc.AddSet(new Set { Name = NameBox, Color = Colors.Green, Decks = new ObservableCollection<Deck>() }, Sets);
             SelectedSet = Sets.Last();
-            SelectedSet.Decks = new ObservableCollection<Deck>();
         }
 
         public void AddDeck()
