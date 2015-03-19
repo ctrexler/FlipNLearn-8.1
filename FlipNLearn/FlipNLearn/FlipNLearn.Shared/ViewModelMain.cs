@@ -57,25 +57,15 @@ namespace FlipNLearn
             {
                 new Set() {
                     Name = "Sample Set 1",
-                    Color = Colors.Red,
+                    Color = Colors.SteelBlue,
                     Decks = new ObservableCollection<Deck>() {
                         new Deck() {
                             Name = "Sample Deck 1.1",
-                            Color = Colors.Black,
                             Cards = new List<Card>() {
                                 new Card() {
+                                    Color = Colors.DeepPink,
                                     FrontText="Sample Card 1.1.1F",
                                     BackText="Sample Card 1.1.2B"
-                                }
-                            }
-                        },
-                        new Deck() {
-                            Name = "Sample Deck 1.2",
-                            Color = Colors.Black,
-                            Cards = new List<Card>() {
-                                new Card() {
-                                    FrontText="Sample Card 1.2.1F",
-                                    BackText="Sample Card 1.2.2B"
                                 }
                             }
                         }
@@ -83,45 +73,46 @@ namespace FlipNLearn
                 },
                 new Set() {
                     Name = "Sample Set 2",
-                    Color = Colors.Red,
+                    Color = Colors.SteelBlue,
                     Decks = new ObservableCollection<Deck>() {
                         new Deck() {
                             Name = "Sample Deck 2.1",
-                            Color = Colors.Black,
                             Cards = new List<Card>() {
                                 new Card() {
+                                    Color = Colors.DeepPink,
                                     FrontText="Sample Card 2.1.1F",
                                     BackText="Sample Card 2.1.2B"
                                 }
                             }
                         },
                         new Deck() {
-                            Name = "Sample Deck 2.2",
-                            Color = Colors.Black,
-                            Cards = new List<Card>() {
-                                new Card() {
-                                    FrontText="Sample Card 2.2.1F",
-                                    BackText="Sample Card 2.2.2B"
-                                }
-                            }
+                            Name = "Sample Deck 2.2"
                         }
                     }
                 }
             };
 
-            SelectedSet = Sets[0];
-            SelectedDeck = Sets[0].Decks[0];
+            if (Sets.Count != 0)
+            {
+                SelectedSet = Sets[0];
+                SelectedDeck = Sets[0].Decks[0];
+            }
         }
 
         public void AddSet()
         {
-            JsonFunc.AddSet(new Set { Name = NameBox, Color = Colors.Green, Decks = new ObservableCollection<Deck>() }, Sets);
+            JsonFunc.AddSet(new Set
+            {
+                Name = NameBox,
+                Color = Colors.SteelBlue,
+                Decks = new ObservableCollection<Deck>()
+            }, Sets);
             SelectedSet = Sets.Last();
         }
 
         public void AddDeck()
         {
-            SelectedSet.Decks.Add(new Deck { Name = NameBox, Color = Colors.Green });
+            SelectedSet.Decks.Add(new Deck { Name = NameBox });
         }
     }
 }

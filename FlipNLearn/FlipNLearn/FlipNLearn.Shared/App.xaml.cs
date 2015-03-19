@@ -135,7 +135,7 @@ namespace FlipNLearn
             deferral.Complete();
 
             //JSON Deserialization
-            JsonFunc.Serialize();
+            DataModels.JsonFunc.Serialize();
         }
     }
 }
