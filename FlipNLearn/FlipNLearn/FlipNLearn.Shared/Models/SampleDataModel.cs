@@ -5,7 +5,7 @@ using System.Text;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 
-namespace FlipNLearn.DataModels
+namespace FlipNLearn.Models
 {
     public class SampleDataModel : ViewModelMain
     {
@@ -39,6 +39,11 @@ namespace FlipNLearn.DataModels
                                 new Card() {
                                     Color = Colors.DeepPink,
                                     FrontText="Sample Card 2.1.1F",
+                                    BackText="Sample Card 2.1.1B"
+                                },
+                                new Card() {
+                                    Color = Colors.DeepPink,
+                                    FrontText="Sample Card 2.1.2F",
                                     BackText="Sample Card 2.1.2B"
                                 }
                             }

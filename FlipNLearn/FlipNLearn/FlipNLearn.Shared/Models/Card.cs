@@ -4,7 +4,7 @@ using System.Text;
 using Windows.UI;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace FlipNLearn.DataModels
+namespace FlipNLearn.Models
 {
     public class Card
     {

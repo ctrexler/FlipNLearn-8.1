@@ -5,12 +5,13 @@ using System.Text;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 
-namespace FlipNLearn.DataModels
+namespace FlipNLearn.Models
 {
-    public class Deck
+    public class Set
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Card> Cards { get; set; }
+        public Color Color { get; set; }
+        public ObservableCollection<Deck> Decks { get; set; }
     }
 }

@@ -15,11 +15,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)DataModels\Card.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataModels\Deck.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataModels\JsonFunc.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataModels\SampleDataModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataModels\Set.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonFunc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Card.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Deck.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SampleDataModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Set.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\CheckCardListNullConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\ColorToBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModelMain.cs" />

@@ -1,4 +1,4 @@
-﻿using FlipNLearn.DataModels;
+﻿using FlipNLearn.Models;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -52,16 +52,7 @@ namespace FlipNLearn
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
 
-            // JSON.NET
-            //DataModel.Sets = new ObservableCollection<Set>()
-            //{
-            //    new Set() {
-            //        Name = "Calculus",
-            //        Color = Colors.Red
-            //    }
-            //};
-
-            JsonFunc.Deserialize();
+            JsonFunc.Deserialize(vm);
         }
 
 
@@ -70,14 +61,14 @@ namespace FlipNLearn
             vm.SelectedSet = (Set)ListViewSets.SelectedItem;
         }
 
-        private void AddDeckButton_Click(object sender, RoutedEventArgs e)
-        {
-            vm.AddDeck();
-        }
-
         private void AddSetButton_Click(object sender, RoutedEventArgs e)
         {
-            vm.AddSet();
+            vm.AddSet(vm);
+        }
+
+        private void AddDeckButton_Click(object sender, RoutedEventArgs e)
+        {
+            vm.AddDeck(vm);
         }
     }
 }
