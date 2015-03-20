@@ -25,14 +25,13 @@ namespace FlipNLearn
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private ViewModelMain vm;
-
         public MainPage()
         {
             this.InitializeComponent();
 
-            vm = new ViewModelMain();
-            this.DataContext = vm;
+            this.DataContext = ViewModel.instance;
+
+            JsonFunc.Deserialize(ViewModel.instance);
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
@@ -51,24 +50,28 @@ namespace FlipNLearn
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
-
-            JsonFunc.Deserialize(vm);
         }
 
 
         private void Set_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            vm.SelectedSet = (Set)ListViewSets.SelectedItem;
+            ViewModel.instance.SelectedSet = (Set)ListViewSets.SelectedItem;
+        }
+
+        private void Deck_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModel.instance.SelectedDeck = (Deck)ListViewDecks.SelectedItem;
+            Frame.Navigate(typeof(ViewDeck));
         }
 
         private void AddSetButton_Click(object sender, RoutedEventArgs e)
         {
-            vm.AddSet(vm);
+            ViewModel.instance.AddSet();
         }
 
         private void AddDeckButton_Click(object sender, RoutedEventArgs e)
         {
-            vm.AddDeck(vm);
+            ViewModel.instance.AddDeck();
         }
     }
 }

@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Media;
 
 namespace FlipNLearn.Models
 {
-    public class SampleDataModel : ViewModelMain
+    public class SampleDataModel : ViewModel
     {
         public SampleDataModel() : base()
         {
