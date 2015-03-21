@@ -66,7 +66,7 @@ namespace FlipNLearn
 
         private void AddSetButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.instance.AddSet();
+            Frame.Navigate(typeof(AddSet));
         }
 
         private void AddDeckButton_Click(object sender, RoutedEventArgs e)

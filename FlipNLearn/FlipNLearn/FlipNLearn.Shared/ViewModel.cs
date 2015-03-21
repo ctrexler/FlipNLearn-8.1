@@ -44,22 +44,29 @@ namespace FlipNLearn
         public Deck SelectedDeck { get; set; }
 
         // NameBox (XAML)
-        public string NameBoxValue { get; set; }
-        public string NameBox
+        public string AddSetNameValue { get; set; }
+        public string AddSetName
         {
-            get { return this.NameBoxValue; }
+            get { return this.AddSetNameValue; }
             set {
-                if (value != this.NameBoxValue)
+                if (value != this.AddSetNameValue)
                 {
-                    this.NameBoxValue = value;
-                    NotifyPropertyChanged("NameBox");
+                    this.AddSetNameValue = value;
+                    NotifyPropertyChanged("AddSetName");
                 }
             }
         }
 
+        // NameBox (XAML)
+        public Color AddSetSelectedColor { get; set; }
+
+        // Approved Colors
+        public List<ApprovedColor> ApprovedColors { get; set; }
+
         // DataModel
         public ViewModel()
         {
+            // Hard-coded Data
             Sets = new ObservableCollection<Set>()
             {
                 new Set() {
@@ -124,19 +131,53 @@ namespace FlipNLearn
                 }
             };
 
+            // App Loading Assignments
             if (Sets.Count != 0)
             {
                 SelectedSet = Sets[0];
                 SelectedDeck = Sets[0].Decks[0];
             }
+
+            // Approved Colors
+            ApprovedColors = new List<ApprovedColor>()
+            {
+                new ApprovedColor() {
+                    Color = Colors.Red,
+                    BorderThickness = "1"
+                },
+                new ApprovedColor() {
+                    Color = Colors.Orange,
+                    BorderThickness = "1"
+                },
+                new ApprovedColor() {
+                    Color = Colors.ForestGreen,
+                    BorderThickness = "1"
+                },
+                new ApprovedColor() {
+                    Color = Colors.SteelBlue,
+                    BorderThickness = "1"
+                },
+                new ApprovedColor() {
+                    Color = Colors.Purple,
+                    BorderThickness = "1"
+                },
+                new ApprovedColor() {
+                    Color = Colors.DeepPink,
+                    BorderThickness = "1"
+                },
+                new ApprovedColor() {
+                    Color = Colors.Black,
+                    BorderThickness = "1"
+                }
+            };
         }
 
         public void AddSet()
         {
             JsonFunc.AddSet(new Set
             {
-                Name = NameBox,
-                Color = Colors.SteelBlue,
+                Name = AddSetName,
+                Color = AddSetSelectedColor,
                 Decks = new ObservableCollection<Deck>()
             });
             SelectedSet = Sets.Last();
@@ -144,7 +185,7 @@ namespace FlipNLearn
 
         public void AddDeck()
         {
-            JsonFunc.AddDeck(new Deck { Name = NameBox });
+            JsonFunc.AddDeck(new Deck { Name = AddSetName });
         }
     }
 }

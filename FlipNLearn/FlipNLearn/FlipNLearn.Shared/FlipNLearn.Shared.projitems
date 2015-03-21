@@ -17,9 +17,12 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)JsonFunc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Card.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ApprovedColor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Deck.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SampleDataModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Set.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OpenMenuFlyoutAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StoryboardExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\CheckCardListNullConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\ColorToBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel.cs" />

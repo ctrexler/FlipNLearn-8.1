@@ -7,6 +7,8 @@
     xmlns:converter="using:FlipNLearn.ValueConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -44,7 +46,24 @@
                                     Background="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
                                     Tapped="Set_Tapped"
                                     Margin="0,2,0,0">
-                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" FontFamily="Segoe WP" FontSize="17"/>
+                            
+                            <!-- Flyout Menu -->
+                            <i:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Holding">
+                                    <local:OpenMenuFlyoutAction />
+                                </core:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                            <FlyoutBase.AttachedFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Text="✎ Edit Set" />
+                                    <MenuFlyoutItem Text="" />
+                                    <MenuFlyoutItem Text="✗ Delete Set" />
+                                </MenuFlyout>
+                            </FlyoutBase.AttachedFlyout>
+                            <!-- End Flyout Menu -->
+                        
+
+                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" FontFamily="Segoe WP" FontSize="17"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3,0,5">
                                 <TextBlock Text="{Binding Decks.Count}" FontFamily="Segoe WP" FontWeight="Light" FontSize="12" />
                                 <TextBlock Text="Decks" Margin="5,0,0,0" FontFamily="Segoe WP" FontWeight="Light" FontSize="12"/>
@@ -58,8 +77,7 @@
         <!-- Deck Column -->
         <!--<Grid Grid.Column="1" Background="#006BB2">-->
         <Grid Grid.Column="1" Background="Black">
-            <TextBox Text="{Binding NameBox, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="28,500,27,0" />
-            <ListView x:Name="ListViewDecks" ItemsSource="{Binding SelectedSet.Decks}" Margin="0,0,0,90">
+            <ListView x:Name="ListViewDecks" ItemsSource="{Binding SelectedSet.Decks}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -68,6 +86,22 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="0,0,0,10" Tapped="Deck_Tapped">
+
+                            <!-- Flyout Menu -->
+                            <i:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Holding">
+                                    <local:OpenMenuFlyoutAction />
+                                </core:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                            <FlyoutBase.AttachedFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Text="✎ Edit Deck" />
+                                    <MenuFlyoutItem Text="" />
+                                    <MenuFlyoutItem Text="✗ Delete Deck" />
+                                </MenuFlyout>
+                            </FlyoutBase.AttachedFlyout>
+                            <!-- End Flyout Menu -->
+
                             <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Margin="20,0,0,0" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="20"/>
                             <Grid>
                                 <Rectangle Fill="{Binding Cards[0].Color, Converter={StaticResource ColorToBrushConverter}}"
@@ -89,8 +123,8 @@
     </Grid>
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="AddSetButton" Click="AddSetButton_Click" Icon="DockLeft" />
-            <AppBarButton x:Name="AddDeckButton" Click="AddDeckButton_Click" Icon="Add"/>
+            <AppBarButton x:Name="AddSetButton" Click="AddSetButton_Click" Icon="DockLeft" Label="Add Set" />
+            <AppBarButton x:Name="AddDeckButton" Click="AddDeckButton_Click" Icon="Add" Label="Create Deck"/>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

@@ -60,6 +60,39 @@ namespace FlipNLearn.Models
                 SelectedSet = Sets[0];
                 SelectedDeck = Sets[0].Decks[0];
             }
+
+            // Approved Colors
+            ApprovedColors = new List<ApprovedColor>()
+            {
+                new ApprovedColor() {
+                    Color = Colors.Red,
+                    BorderThickness = "1"
+                },
+                new ApprovedColor() {
+                    Color = Colors.Orange,
+                    BorderThickness = "1"
+                },
+                new ApprovedColor() {
+                    Color = Colors.ForestGreen,
+                    BorderThickness = "1"
+                },
+                new ApprovedColor() {
+                    Color = Colors.SteelBlue,
+                    BorderThickness = "1"
+                },
+                new ApprovedColor() {
+                    Color = Colors.Purple,
+                    BorderThickness = "1"
+                },
+                new ApprovedColor() {
+                    Color = Colors.DeepPink,
+                    BorderThickness = "1"
+                },
+                new ApprovedColor() {
+                    Color = Colors.Black,
+                    BorderThickness = "1"
+                }
+            };
         }
     }
 }
