@@ -64,14 +64,60 @@ namespace FlipNLearn
             Frame.Navigate(typeof(ViewDeck));
         }
 
-        private void AddSetButton_Click(object sender, RoutedEventArgs e)
+        private void Button_AddSet_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(AddSet));
+            GridDeck.Visibility = Visibility.Collapsed;
+            GridAddSet.Visibility = Visibility.Visible;
+
+            Button_AddSet.Visibility = Visibility.Collapsed;
+            Button_AddDeck.Visibility = Visibility.Collapsed;
+
+            Button_SaveSet.Visibility = Visibility.Visible;
+            Button_CancelSet.Visibility = Visibility.Visible;
         }
 
-        private void AddDeckButton_Click(object sender, RoutedEventArgs e)
+        private void Button_AddDeck_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.instance.AddDeck();
+        }
+
+        private void Button_SaveSet_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.instance.AddSet();
+
+            TextBox_SetName.Text = "";
+
+            GridDeck.Visibility = Visibility.Visible;
+            GridAddSet.Visibility = Visibility.Collapsed;
+
+            Button_SaveSet.Visibility = Visibility.Collapsed;
+            Button_CancelSet.Visibility = Visibility.Collapsed;
+            
+            Button_AddSet.Visibility = Visibility.Visible;
+            Button_AddDeck.Visibility = Visibility.Visible;
+        }
+
+        private void Button_CancelSet_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox_SetName.Text = "";
+
+            GridDeck.Visibility = Visibility.Visible;
+            GridAddSet.Visibility = Visibility.Collapsed;
+
+            Button_SaveSet.Visibility = Visibility.Collapsed;
+            Button_CancelSet.Visibility = Visibility.Collapsed;
+
+            Button_AddSet.Visibility = Visibility.Visible;
+            Button_AddDeck.Visibility = Visibility.Visible;
+        }
+        
+        Border LastSelected = new Border();
+        private void Color_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            LastSelected.BorderThickness = new Thickness(1);
+            (sender as Border).BorderThickness = new Thickness(3);
+            LastSelected = (sender as Border);
+            ViewModel.instance.AddSetSelectedColor = (GridViewColors.SelectedItem as ApprovedColor).Color;
         }
     }
 }
