@@ -2,12 +2,14 @@
 using FlipNLearn.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
+using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,7 +18,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Windows.UI.Xaml.Shapes;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -25,16 +26,14 @@ namespace FlipNLearn
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AddSet : Page
+    public sealed partial class CreateDeck : Page
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public AddSet()
+        public CreateDeck()
         {
             this.InitializeComponent();
-
-            this.DataContext = ViewModel.instance;
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
@@ -112,24 +111,49 @@ namespace FlipNLearn
 
         #endregion
 
-        private void AddSetButton_Click(object sender, RoutedEventArgs e)
+
+        private void Button_AddCard_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.instance.AddSet();
-            Frame.Navigate(typeof(MainPage));
+            if (TextBox_FrontText.Text != ""
+                && TextBox_BackText.Text != ""
+                && GridViewColors.SelectedItem != null)
+            {
+                ViewModel.instance.AddCard();
+
+                Flyout_AddCard.Hide();
+
+                TextBox_FrontText.Text = "";
+                TextBox_BackText.Text = "";
+            }
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        private void Button_CancelSet_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MainPage));
+            Flyout_AddCard.Hide();
+
+            TextBox_FrontText.Text = "";
+            TextBox_BackText.Text = "";
         }
 
         Border LastSelected = new Border();
         private void Color_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            LastSelected.BorderThickness = new Thickness(1);
+            LastSelected.BorderThickness = new Thickness(0);
             (sender as Border).BorderThickness = new Thickness(3);
             LastSelected = (sender as Border);
-            ViewModel.instance.AddSetSelectedColor = (GridViewColors.SelectedItem as ApprovedColor).Color;
+            ViewModel.instance.AddCardColor = (GridViewColors.SelectedItem as ApprovedColor).Color;
+        }
+
+        private void Context_DeleteCard_Click(object sender, RoutedEventArgs e)
+        {
+            var menuFlyoutItem = sender as MenuFlyoutItem;
+            ViewModel.instance.SelectedCard = menuFlyoutItem.DataContext as Card;
+            JsonFunc.DeleteCard();
+
+            if (ViewModel.instance.SelectedDeck.Cards.Count != 0)
+            {
+                ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.First();
+            }
         }
     }
 }

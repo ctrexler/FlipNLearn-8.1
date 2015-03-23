@@ -10,7 +10,8 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity" 
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{StaticResource ViewModel}">
 
     <d:Page.DataContext>
         <sample:SampleDataModel />
@@ -55,9 +56,7 @@
                             </i:Interaction.Behaviors>
                             <FlyoutBase.AttachedFlyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem Text="✎ Edit Set" />
-                                    <MenuFlyoutItem Text="" />
-                                    <MenuFlyoutItem Text="✗ Delete Set" />
+                                    <MenuFlyoutItem  x:Name="Context_Set_Delete" Text="✗ Delete Set" Click="Context_DeleteSet_Click" />
                                 </MenuFlyout>
                             </FlyoutBase.AttachedFlyout>
                             <!-- End Flyout Menu -->
@@ -96,21 +95,21 @@
                                 </i:Interaction.Behaviors>
                                 <FlyoutBase.AttachedFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem Text="✎ Edit Deck" />
+                                        <MenuFlyoutItem x:Name="Context_Deck_Edit" Text="✎ Edit Deck" Click="Context_EditDeck_Click" />
                                         <MenuFlyoutItem Text="" />
-                                        <MenuFlyoutItem Text="✗ Delete Deck" />
+                                        <MenuFlyoutItem x:Name="Context_Deck_Delete" Text="✗ Delete Deck" Click="Context_DeleteDeck_Click" />
                                     </MenuFlyout>
                                 </FlyoutBase.AttachedFlyout>
                                 <!-- End Flyout Menu -->
 
                                 <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Margin="20,0,0,0" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="20"/>
-                                <Grid>
+                                <Grid Height="164" Width="260">
                                     <Rectangle Fill="{Binding Cards[0].Color, Converter={StaticResource ColorToBrushConverter}}"
                                            Stroke="{Binding Cards[0].Color, Converter={StaticResource CheckCardListNullConverter}, ConverterParameter='Stroke', FallbackValue='#7f7f7f'}"  
                                            StrokeDashArray="{Binding Cards.Count, Converter={StaticResource CheckCardListNullConverter}, ConverterParameter='Dash', FallbackValue=5}"
                                            StrokeThickness="1"
-                                           Height="150" Width="250" />
-                                    <TextBlock Text="{Binding Cards[0].FrontText, FallbackValue='&lt; no cards &gt;'}" HorizontalAlignment="Center" Margin="0,50,0,0" FontFamily="Segoe WP" FontWeight="Light" FontSize="27"/>
+                                           Height="164" Width="260" />
+                                    <TextBlock Text="{Binding Cards[0].FrontText, FallbackValue='&lt; no cards &gt;'}" HorizontalAlignment="Center"  VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="24" TextWrapping="WrapWholeWords" />
                                 </Grid>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
                                     <TextBlock Text="{Binding Cards.Count, FallbackValue='0'}" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="12"/>
@@ -121,42 +120,77 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Grid>
-            <Grid x:Name="GridAddSet" Visibility="Collapsed" Background="Black">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <!-- Title Panel -->
-                <StackPanel Grid.Row="0" Margin="19,0,0,0">
-                    <TextBlock Text="Add Set" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
-                </StackPanel>
-
-                <!--TODO: Content should be placed within the following grid-->
-                <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-                    <StackPanel Orientation="Vertical">
-                        <TextBox x:Name="TextBox_SetName" HorizontalAlignment="Left" Margin="0,0,0,20" PlaceholderText="Set Name" Text="{Binding AddSetName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="130"/>
-                        <GridView x:Name="GridViewColors" ItemsSource="{Binding ApprovedColors}">
-                            <GridView.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Tapped="Color_Tapped" BorderThickness="{Binding BorderThickness, UpdateSourceTrigger=PropertyChanged}" BorderBrush="White" Height="75" Width="75" Margin="12">
-                                        <Rectangle Height="75" Width="100"
-                                           Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
-                                            />
-                                    </Border>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
-                    </StackPanel>
-                </Grid>
-            </Grid>
         </Grid>
     </Grid>
     <Page.BottomAppBar>
         <CommandBar>
             <!-- Main Menu -->
-            <AppBarButton x:Name="Button_AddSet" Click="Button_AddSet_Click" Icon="DockLeft" Label="Add Set" />
-            <AppBarButton x:Name="Button_AddDeck" Click="Button_AddDeck_Click" Icon="Add" Label="Create Deck"/>
+            <AppBarButton x:Name="Button_AddSet" Icon="DockLeft" Label="Add Set" >
+                <AppBarButton.Flyout>
+                    <Flyout x:Name="Flyout_AddSet">
+                        <Grid x:Name="GridAddSet" Height="Auto">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Title Panel -->
+                            <StackPanel Grid.Row="0" Margin="19,0,0,0">
+                                <TextBlock Text="add set" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+                            </StackPanel>
+
+                            <!--TODO: Content should be placed within the following grid-->
+                            <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBox x:Name="TextBox_SetName" HorizontalAlignment="Left" Margin="0,0,0,20" PlaceholderText="Set Name" Text="{Binding AddSetName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="130"/>
+                                    <GridView x:Name="GridViewColors" ItemsSource="{Binding ApprovedColors}" Margin="0,0,0,30">
+                                        <GridView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Tapped="Color_Tapped" BorderThickness="1" BorderBrush="White" Height="50" Width="50" Margin="1">
+                                                    <Rectangle Height="50" Width="50"
+                                                               Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridView.ItemTemplate>
+                                    </GridView>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Content="add" Width="150" Click="Button_SaveSet_Click" />
+                                        <Button Content="cancel" Width="150" Click="Button_CancelSet_Click" Margin="25,0,0,0" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton x:Name="Button_AddDeck" Icon="Add" Label="Create Deck">
+                <AppBarButton.Flyout>
+                    <Flyout x:Name="Flyout_CreateDeck">
+                        <Grid Height="Auto">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Title Panel -->
+                            <StackPanel Grid.Row="0" Margin="19,0,0,0">
+                                <TextBlock Text="create deck" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+                            </StackPanel>
+
+                            <!--TODO: Content should be placed within the following grid-->
+                            <Grid Grid.Row="1" Margin="19,9.5,19,0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBox x:Name="TextBox_DeckName" HorizontalAlignment="Left" Margin="0,0,0,20" PlaceholderText="Deck Name" Text="{Binding AddDeckName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="250"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Content="create" Width="150" Click="Button_CreateDeck_Click" />
+                                        <Button Content="cancel" Width="150" Click="Button_CancelDeck_Click" Margin="25,0,0,0" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
 
             <!-- AddSet -->
             <AppBarButton x:Name="Button_SaveSet" Visibility="Collapsed" Icon="Accept" Label="Save" Click="Button_SaveSet_Click"/>

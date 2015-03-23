@@ -11,7 +11,7 @@ namespace FlipNLearn
 {
     public class ViewModel : INotifyPropertyChanged
     {
-        public static readonly ViewModel instance = new ViewModel();
+        public static ViewModel instance;
 
         // INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -27,38 +27,107 @@ namespace FlipNLearn
         public ObservableCollection<Set> Sets { get; set; }
 
         // Selected Set
-        public Set SelectedSetValue { get; set; }
+        private Set _SelectedSet { get; set; }
         public Set SelectedSet
         {
-            get { return this.SelectedSetValue; }
+            get { return this._SelectedSet; }
             set {
-                if (value != this.SelectedSetValue)
+                if (value != this._SelectedSet)
                 {
-                    this.SelectedSetValue = value;
+                    this._SelectedSet = value;
                     NotifyPropertyChanged("SelectedSet");
                 }
             }
         }
         
         // Selected Deck
-        public Deck SelectedDeck { get; set; }
+        private Deck _SelectedDeck;
+        public Deck SelectedDeck
+        {
+            get
+            {
+                return _SelectedDeck;
+            }
+            set
+            {
+                _SelectedDeck = value;
+                NotifyPropertyChanged("SelectedDeck");
+            }
+        }
 
-        // NameBox (XAML)
-        public string AddSetNameValue { get; set; }
+        // Selected Card
+        private Card _SelectedCard;
+        public Card SelectedCard
+        {
+            get
+            {
+                return _SelectedCard;
+            }
+            set
+            {
+                _SelectedCard = value;
+                NotifyPropertyChanged("SelectedCard");
+            }
+        }
+
+        public string _AddSetName { get; set; }
         public string AddSetName
         {
-            get { return this.AddSetNameValue; }
+            get { return this._AddSetName; }
             set {
-                if (value != this.AddSetNameValue)
+                if (value != this._AddSetName)
                 {
-                    this.AddSetNameValue = value;
+                    this._AddSetName = value;
                     NotifyPropertyChanged("AddSetName");
                 }
             }
         }
+        
+        public Color AddSetColor { get; set; }
 
-        // NameBox (XAML)
-        public Color AddSetSelectedColor { get; set; }
+
+        public string _AddDeckName { get; set; }
+        public string AddDeckName
+        {
+            get { return this._AddDeckName; }
+            set
+            {
+                if (value != this._AddDeckName)
+                {
+                    this._AddDeckName = value;
+                    NotifyPropertyChanged("AddDeckName");
+                }
+            }
+        }
+
+        public string _AddCardFrontText { get; set; }
+        public string AddCardFrontText
+        {
+            get { return this._AddCardFrontText; }
+            set
+            {
+                if (value != this._AddCardFrontText)
+                {
+                    this._AddCardFrontText = value;
+                    NotifyPropertyChanged("AddCardFrontText");
+                }
+            }
+        }
+        public string _AddCardBackText { get; set; }
+        public string AddCardBackText
+        {
+            get { return this._AddCardBackText; }
+            set
+            {
+                if (value != this._AddCardBackText)
+                {
+                    this._AddCardBackText = value;
+                    NotifyPropertyChanged("AddCardBackText");
+                }
+            }
+        }
+
+        public Color AddCardColor { get; set; }
 
         // Approved Colors
         public List<ApprovedColor> ApprovedColors { get; set; }
@@ -69,73 +138,111 @@ namespace FlipNLearn
             // Hard-coded Data
             Sets = new ObservableCollection<Set>()
             {
-                new Set() {
-                    Name = "Geography",
-                    Color = Colors.SteelBlue,
-                    Decks = new ObservableCollection<Deck>() {
-                        new Deck() {
-                            Name = "US Capitals",
-                            Cards = new List<Card>() {
-                                new Card() {
-                                    Color = Colors.DeepPink,
-                                    FrontText="Alaska",
-                                    BackText="Anchorage"
-                                },
-                                new Card() {
-                                    Color = Colors.DeepPink,
-                                    FrontText="Texas",
-                                    BackText="Austin"
-                                },
-                                new Card() {
-                                    Color = Colors.DeepPink,
-                                    FrontText="Maine",
-                                    BackText="Agusta"
-                                },
-                                new Card() {
-                                    Color = Colors.DeepPink,
-                                    FrontText="Vermont",
-                                    BackText="Mont Pelier"
-                                },
-                                new Card() {
-                                    Color = Colors.DeepPink,
-                                    FrontText="Louisiana",
-                                    BackText="Baton Rouge"
-                                }
-                            }
-                        }
-                    }
-                },
-                new Set() {
-                    Name = "Sample Set 2",
-                    Color = Colors.SteelBlue,
-                    Decks = new ObservableCollection<Deck>() {
-                        new Deck() {
-                            Name = "Sample Deck 2.1",
-                            Cards = new List<Card>() {
-                                new Card() {
-                                    Color = Colors.DeepPink,
-                                    FrontText="Sample Card 2.1.1F",
-                                    BackText="Sample Card 2.1.2B"
-                                },
-                                new Card() {
-                                    Color = Colors.DeepPink,
-                                    FrontText="Sample Card 2.1.2F",
-                                    BackText="Sample Card 2.1.2B"
-                                }
-                            }
-                        },
-                        new Deck() {
-                            Name = "Sample Deck 2.2"
-                        }
-                    }
-                }
+                //new Set() {
+                //    Name = "Geography",
+                //    Color = Colors.SteelBlue,
+                //    Decks = new ObservableCollection<Deck>() {
+                //        new Deck() {
+                //            Name = "US Capitals",
+                //            Cards = new ObservableCollection<Card>() {
+                //                new Card() {
+                //                    Color = Colors.DeepPink,
+                //                    FrontText="Alaska",
+                //                    BackText="Anchorage"
+                //                },
+                //                new Card() {
+                //                    Color = Colors.DeepPink,
+                //                    FrontText="Texas",
+                //                    BackText="Austin"
+                //                },
+                //                new Card() {
+                //                    Color = Colors.DeepPink,
+                //                    FrontText="Maine",
+                //                    BackText="Augusta"
+                //                },
+                //                new Card() {
+                //                    Color = Colors.DeepPink,
+                //                    FrontText="Vermont",
+                //                    BackText="Mont Pelier"
+                //                },
+                //                new Card() {
+                //                    Color = Colors.DeepPink,
+                //                    FrontText="Louisiana",
+                //                    BackText="Baton Rouge"
+                //                }
+                //            }
+                //        },
+                //        new Deck() {
+                //            Name = "Elements",
+                //            Cards = new ObservableCollection<Card>() {
+                //                new Card() {
+                //                    Color = Colors.DeepPink,
+                //                    FrontText="Es",
+                //                    BackText="Einsteinium"
+                //                },
+                //                new Card() {
+                //                    Color = Colors.DeepPink,
+                //                    FrontText="Ag",
+                //                    BackText="Silver"
+                //                },
+                //                new Card() {
+                //                    Color = Colors.DeepPink,
+                //                    FrontText="Hg",
+                //                    BackText="Mercury"
+                //                },
+                //                new Card() {
+                //                    Color = Colors.DeepPink,
+                //                    FrontText="Y",
+                //                    BackText="Yttrium"
+                //                },
+                //                new Card() {
+                //                    Color = Colors.DeepPink,
+                //                    FrontText="Rw",
+                //                    BackText="Doesn't Exist!"
+                //                }
+                //            }
+                //        }
+                //    }
+                //},
+                //new Set() {
+                //    Name = "Sample Set 2",
+                //    Color = Colors.SteelBlue,
+                //    Decks = new ObservableCollection<Deck>() {
+                //        new Deck() {
+                //            Name = "Sample Deck 2.1",
+                //            Cards = new ObservableCollection<Card>() {
+                //                new Card() {
+                //                    Color = Colors.DeepPink,
+                //                    FrontText="Sample Card 2.1.1F",
+                //                    BackText="Sample Card 2.1.2B"
+                //                },
+                //                new Card() {
+                //                    Color = Colors.DeepPink,
+                //                    FrontText="Sample Card 2.1.2F",
+                //                    BackText="Sample Card 2.1.2B"
+                //                }
+                //            }
+                //        },
+                //        new Deck() {
+                //            Name = "Sample Deck 2.2"
+                //        }
+                //    }
+                //}
             };
+
+            ViewModel.instance = this;
+
+            JsonFunc.Deserialize();
 
             // App Loading Assignments
             if (Sets.Count != 0)
             {
-                SelectedSet = Sets[0];
-                SelectedDeck = Sets[0].Decks[0];
+                SelectedSet = Sets.First();
+                System.Diagnostics.Debug.WriteLine("Setting Set to: " + SelectedSet.Name);
+                if (SelectedSet.Decks.Count != 0)
+                {
+                    SelectedDeck = SelectedSet.Decks.First();
+                }
             }
 
             // Approved Colors
@@ -143,31 +250,24 @@ namespace FlipNLearn
             {
                 new ApprovedColor() {
                     Color = Colors.Red,
-                    BorderThickness = "1"
                 },
                 new ApprovedColor() {
                     Color = Colors.Orange,
-                    BorderThickness = "1"
                 },
                 new ApprovedColor() {
                     Color = Colors.ForestGreen,
-                    BorderThickness = "1"
                 },
                 new ApprovedColor() {
                     Color = Colors.SteelBlue,
-                    BorderThickness = "1"
                 },
                 new ApprovedColor() {
                     Color = Colors.Purple,
-                    BorderThickness = "1"
                 },
                 new ApprovedColor() {
                     Color = Colors.DeepPink,
-                    BorderThickness = "1"
                 },
                 new ApprovedColor() {
                     Color = Colors.Black,
-                    BorderThickness = "1"
                 }
             };
         }
@@ -177,7 +277,7 @@ namespace FlipNLearn
             JsonFunc.AddSet(new Set
             {
                 Name = AddSetName,
-                Color = AddSetSelectedColor,
+                Color = AddSetColor,
                 Decks = new ObservableCollection<Deck>()
             });
             SelectedSet = Sets.Last();
@@ -185,7 +285,19 @@ namespace FlipNLearn
 
         public void AddDeck()
         {
-            JsonFunc.AddDeck(new Deck { Name = AddSetName });
+            JsonFunc.AddDeck(new Deck {
+                Name = AddDeckName,
+            });
+        }
+
+        public void AddCard()
+        {
+            JsonFunc.AddCard(new Card
+            {
+                FrontText = AddCardFrontText,
+                BackText = AddCardBackText,
+                Color = AddCardColor
+            });
         }
     }
 }

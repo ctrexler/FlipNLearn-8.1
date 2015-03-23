@@ -19,7 +19,7 @@ namespace FlipNLearn.Models
                     Decks = new ObservableCollection<Deck>() {
                         new Deck() {
                             Name = "Sample Deck 1.1",
-                            Cards = new List<Card>() {
+                            Cards = new ObservableCollection<Card>() {
                                 new Card() {
                                     Color = Colors.DeepPink,
                                     FrontText="Sample Card 1.1.1F",
@@ -35,7 +35,7 @@ namespace FlipNLearn.Models
                     Decks = new ObservableCollection<Deck>() {
                         new Deck() {
                             Name = "Sample Deck 2.1",
-                            Cards = new List<Card>() {
+                            Cards = new ObservableCollection<Card>() {
                                 new Card() {
                                     Color = Colors.DeepPink,
                                     FrontText="Sample Card 2.1.1F",
@@ -66,31 +66,24 @@ namespace FlipNLearn.Models
             {
                 new ApprovedColor() {
                     Color = Colors.Red,
-                    BorderThickness = "1"
                 },
                 new ApprovedColor() {
                     Color = Colors.Orange,
-                    BorderThickness = "1"
                 },
                 new ApprovedColor() {
                     Color = Colors.ForestGreen,
-                    BorderThickness = "1"
                 },
                 new ApprovedColor() {
                     Color = Colors.SteelBlue,
-                    BorderThickness = "1"
                 },
                 new ApprovedColor() {
                     Color = Colors.Purple,
-                    BorderThickness = "1"
                 },
                 new ApprovedColor() {
                     Color = Colors.DeepPink,
-                    BorderThickness = "1"
                 },
                 new ApprovedColor() {
                     Color = Colors.Black,
-                    BorderThickness = "1"
                 }
             };
         }

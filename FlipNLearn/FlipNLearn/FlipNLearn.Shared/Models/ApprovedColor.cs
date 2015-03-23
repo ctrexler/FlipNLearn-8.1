@@ -9,6 +9,5 @@ namespace FlipNLearn.Models
     public class ApprovedColor
     {
         public Color Color { get; set; }
-        public string BorderThickness { get; set; }
     }
 }

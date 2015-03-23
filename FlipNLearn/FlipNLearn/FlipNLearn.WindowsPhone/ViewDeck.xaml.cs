@@ -1,6 +1,8 @@
 ﻿using FlipNLearn.Common;
+using FlipNLearn.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -33,8 +35,6 @@ namespace FlipNLearn
         public ViewDeck()
         {
             this.InitializeComponent();
-
-            this.DataContext = ViewModel.instance;
 
             swipingSurface.ManipulationMode = ManipulationModes.TranslateX;
             swipingSurface.ManipulationStarted += swipingSurface_ManipulationStarted;
@@ -126,7 +126,7 @@ namespace FlipNLearn
         {
             var velocities = e.Velocities;
 
-            if (velocities.Linear.X > 1.5)
+            if (velocities.Linear.X < -1.5)
             {
                 if (i + 1 > ViewModel.instance.SelectedDeck.Cards.Count -1)
                     i = 0;
@@ -134,15 +134,13 @@ namespace FlipNLearn
                     i++;
                 if (!flag)
                 {
-                    frontText.Text = ViewModel.instance.SelectedDeck.Cards[i].FrontText;
-
                     await FlipToFront.BeginAsync();
                     flag = true;
                 }
-                frontText.Text = ViewModel.instance.SelectedDeck.Cards[i].FrontText;
-                backText.Text = ViewModel.instance.SelectedDeck.Cards[i].BackText;
+                ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.ElementAt(i);
+                TextBlock_CardNumber.Text = (i+1).ToString();
             }
-            else if (velocities.Linear.X < -1.5)
+            else if (velocities.Linear.X > 1.5)
             {
                 if (i - 1 < 0)
                     i = ViewModel.instance.SelectedDeck.Cards.Count - 1;
@@ -150,13 +148,11 @@ namespace FlipNLearn
                     i--;
                 if (!flag)
                 {
-                    frontText.Text = ViewModel.instance.SelectedDeck.Cards[i].FrontText;
-
                     await FlipToFront.BeginAsync();
                     flag = true;
                 }
-                frontText.Text = ViewModel.instance.SelectedDeck.Cards[i].FrontText;
-                backText.Text = ViewModel.instance.SelectedDeck.Cards[i].BackText;
+                ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.ElementAt(i);
+                TextBlock_CardNumber.Text = (i+1).ToString();
             }
         }
 
@@ -177,5 +173,9 @@ namespace FlipNLearn
             }
         }
 
+        private void Button_EditDeck_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(CreateDeck));
+        }
     }
 }

@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)StoryboardExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\CheckCardListNullConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\ColorToBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\SelectedCardIndexConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

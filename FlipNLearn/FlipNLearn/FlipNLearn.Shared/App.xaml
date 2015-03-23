@@ -6,8 +6,8 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <SolidColorBrush x:Key="GridViewItemSelectedBackgroundThemeBrushKey" Color="#56c2ff" />
-        </ResourceDictionary>    
+            <local:ViewModel x:Key="ViewModel"  />
+        </ResourceDictionary>
     </Application.Resources>
 
 

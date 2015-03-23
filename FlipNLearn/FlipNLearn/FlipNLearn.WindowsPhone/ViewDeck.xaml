@@ -8,11 +8,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Page.DataContext>
-        <local:ViewModel />
-    </Page.DataContext>
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{StaticResource ViewModel}">
 
     <d:Page.DataContext>
         <sample:SampleDataModel />
@@ -21,6 +18,7 @@
     <Page.Resources>
 
         <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+        <converter:SelectedCardIndexConverter x:Key="SelectedCardIndexConverter" />
 
         <!-- Flip to Back -->
         <Storyboard x:Name="FlipToBack" SpeedRatio="5">
@@ -89,47 +87,60 @@
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0" ManipulationStarted="swipingSurface_ManipulationStarted" ManipulationCompleted="swipingSurface_ManipulationCompleted">
             <TextBlock Text="{Binding SelectedSet.Name}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
-            <TextBlock Text="{Binding SelectedSet.Decks[0].Name}" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+            <TextBlock Text="{Binding SelectedDeck.Name}" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="0,0,0,0">
+        <Grid Grid.Row="1" Margin="0,0,0,0">
             
-            <!-- Card Front -->
-            <Grid Margin="0,0,0,226" x:Name="swipingSurface">
-                <Border x:Name="cardFront" BorderBrush="White" Height="250"  VerticalAlignment="Top" Margin="0,30,0,0" BorderThickness="1,1,1,1">
-                    <Border.RenderTransform>
-                        <CompositeTransform/>
-                    </Border.RenderTransform>
-                    <Border.Projection>
-                        <PlaneProjection RotationX="0"/>
-                    </Border.Projection>
-                    <StackPanel Height="Auto" Width="Auto" Background="{Binding SelectedSet.Color, Converter={StaticResource ColorToBrushConverter}}" Tapped="Card_Tapped">
-                        <TextBlock x:Name="frontText" Text="{Binding SelectedDeck.Cards[0].FrontText}" HorizontalAlignment="Center" Margin="0,100,0,0" FontFamily="Segoe WP" FontWeight="Light" FontSize="36" >
-                            <TextBlock.RenderTransform>
-                                <CompositeTransform/>
-                            </TextBlock.RenderTransform>
-                        </TextBlock>
-                    </StackPanel>
-                </Border>
+            <StackPanel Orientation="Vertical">
+                <!-- Card Front -->
+                <Grid Margin="0,0,0,5" x:Name="swipingSurface">
+                    <Border x:Name="cardFront" BorderBrush="White" Height="250"  VerticalAlignment="Top" Margin="0,30,0,0" BorderThickness="1,1,1,1">
+                        <Border.RenderTransform>
+                            <CompositeTransform/>
+                        </Border.RenderTransform>
+                        <Border.Projection>
+                            <PlaneProjection RotationX="0"/>
+                        </Border.Projection>
+                        <Grid Height="Auto" Width="Auto" Background="{Binding SelectedCard.Color, Converter={StaticResource ColorToBrushConverter}}" Tapped="Card_Tapped">
+                            <TextBlock x:Name="frontText" Text="{Binding SelectedCard.FrontText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="36"  TextWrapping="WrapWholeWords">
+                                <TextBlock.RenderTransform>
+                                    <CompositeTransform/>
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
 
-                <!-- Card Back -->
-                <Border x:Name="cardBack" BorderBrush="White" Height="250"  VerticalAlignment="Top" Margin="0,30,0,0" BorderThickness="1,1,1,1">
-                    <Border.RenderTransform>
-                        <CompositeTransform/>
-                    </Border.RenderTransform>
-                    <Border.Projection>
-                        <PlaneProjection RotationX="-90"/>
-                    </Border.Projection>
-                    <StackPanel Height="Auto" Width="Auto" Background="{Binding SelectedSet.Color, Converter={StaticResource ColorToBrushConverter}}" Tapped="Card_Tapped">
-                        <TextBlock x:Name="backText" Text="{Binding SelectedDeck.Cards[0].BackText}" HorizontalAlignment="Center" Margin="0,100,0,0" FontFamily="Segoe WP" FontWeight="Light" FontSize="36" >
-                            <TextBlock.RenderTransform>
-                                <CompositeTransform/>
-                            </TextBlock.RenderTransform>
-                        </TextBlock>
-                    </StackPanel>
-                </Border>
-            </Grid>
+                    <!-- Card Back -->
+                    <Border x:Name="cardBack" BorderBrush="White" Height="250"  VerticalAlignment="Top" Margin="0,30,0,0" BorderThickness="1,1,1,1">
+                        <Border.RenderTransform>
+                            <CompositeTransform/>
+                        </Border.RenderTransform>
+                        <Border.Projection>
+                            <PlaneProjection RotationX="-90"/>
+                        </Border.Projection>
+                        <Grid Height="Auto" Width="Auto" Background="{Binding SelectedCard.Color, Converter={StaticResource ColorToBrushConverter}}" Tapped="Card_Tapped">
+                            <TextBlock x:Name="backText" Text="{Binding SelectedCard.BackText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="36" TextWrapping="WrapWholeWords">
+                                <TextBlock.RenderTransform>
+                                    <CompositeTransform/>
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+                </Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,10,0">
+                    <TextBlock x:Name="TextBlock_CardNumber" Text="1" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16"/>
+                    <TextBlock Text="/" Margin="5,0,5,0" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16"/>
+                    <TextBlock Text="{Binding SelectedDeck.Cards.Count}" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16"/>
+                </StackPanel>
+            </StackPanel>
         </Grid>
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Label="Edit Deck" Icon="Edit" Click="Button_EditDeck_Click" />
+        </CommandBar>
+    </Page.BottomAppBar>
+    
 </Page>

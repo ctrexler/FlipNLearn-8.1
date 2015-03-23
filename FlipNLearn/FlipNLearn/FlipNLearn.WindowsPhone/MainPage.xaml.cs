@@ -29,10 +29,6 @@ namespace FlipNLearn
         {
             this.InitializeComponent();
 
-            this.DataContext = ViewModel.instance;
-
-            JsonFunc.Deserialize(ViewModel.instance);
-
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
@@ -60,64 +56,94 @@ namespace FlipNLearn
 
         private void Deck_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ViewModel.instance.SelectedDeck = (Deck)ListViewDecks.SelectedItem;
-            Frame.Navigate(typeof(ViewDeck));
+            if ((ListViewDecks.SelectedItem as Deck).Cards != null
+                && (ListViewDecks.SelectedItem as Deck).Cards.Count != 0)
+            {
+                ViewModel.instance.SelectedDeck = (Deck)ListViewDecks.SelectedItem;
+                ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards[0];
+                Frame.Navigate(typeof(ViewDeck));
+            }
         }
 
-        private void Button_AddSet_Click(object sender, RoutedEventArgs e)
+        private void Button_CreateDeck_Click(object sender, RoutedEventArgs e)
         {
-            GridDeck.Visibility = Visibility.Collapsed;
-            GridAddSet.Visibility = Visibility.Visible;
-
-            Button_AddSet.Visibility = Visibility.Collapsed;
-            Button_AddDeck.Visibility = Visibility.Collapsed;
-
-            Button_SaveSet.Visibility = Visibility.Visible;
-            Button_CancelSet.Visibility = Visibility.Visible;
-        }
-
-        private void Button_AddDeck_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.instance.AddDeck();
+            if (TextBox_DeckName.Text != "")
+            {
+                ViewModel.instance.SelectedSet.Decks.Add(
+                    new Deck()
+                    {
+                        Name = TextBox_DeckName.Text,
+                        Cards = new ObservableCollection<Card>()
+                    }
+                );
+                ViewModel.instance.SelectedDeck = ViewModel.instance.SelectedSet.Decks.Last();
+                Frame.Navigate(typeof(CreateDeck));
+            }
         }
 
         private void Button_SaveSet_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.instance.AddSet();
+            if (TextBox_SetName.Text != ""
+                && GridViewColors.SelectedItem != null)
+            {
+                ViewModel.instance.AddSet();
+                Flyout_AddSet.Hide();
 
-            TextBox_SetName.Text = "";
-
-            GridDeck.Visibility = Visibility.Visible;
-            GridAddSet.Visibility = Visibility.Collapsed;
-
-            Button_SaveSet.Visibility = Visibility.Collapsed;
-            Button_CancelSet.Visibility = Visibility.Collapsed;
-            
-            Button_AddSet.Visibility = Visibility.Visible;
-            Button_AddDeck.Visibility = Visibility.Visible;
+                TextBox_SetName.Text = "";
+            }
         }
 
         private void Button_CancelSet_Click(object sender, RoutedEventArgs e)
         {
+            Flyout_AddSet.Hide();
+            
             TextBox_SetName.Text = "";
-
-            GridDeck.Visibility = Visibility.Visible;
-            GridAddSet.Visibility = Visibility.Collapsed;
-
-            Button_SaveSet.Visibility = Visibility.Collapsed;
-            Button_CancelSet.Visibility = Visibility.Collapsed;
-
-            Button_AddSet.Visibility = Visibility.Visible;
-            Button_AddDeck.Visibility = Visibility.Visible;
         }
         
         Border LastSelected = new Border();
         private void Color_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            LastSelected.BorderThickness = new Thickness(1);
+            LastSelected.BorderThickness = new Thickness(0);
             (sender as Border).BorderThickness = new Thickness(3);
             LastSelected = (sender as Border);
-            ViewModel.instance.AddSetSelectedColor = (GridViewColors.SelectedItem as ApprovedColor).Color;
+            ViewModel.instance.AddSetColor = (GridViewColors.SelectedItem as ApprovedColor).Color;
+        }
+
+        private void Button_CancelDeck_Click(object sender, RoutedEventArgs e)
+        {
+            Flyout_CreateDeck.Hide();
+            TextBox_DeckName.Text = "";
+        }
+
+        private void Context_EditDeck_Click(object sender, RoutedEventArgs e)
+        {
+            var menuFlyoutItem = sender as MenuFlyoutItem;
+            ViewModel.instance.SelectedDeck = menuFlyoutItem.DataContext as Deck;
+            Frame.Navigate(typeof(CreateDeck));
+        }
+
+        private void Context_DeleteSet_Click(object sender, RoutedEventArgs e)
+        {
+            var menuFlyoutItem = sender as MenuFlyoutItem;
+            ViewModel.instance.SelectedSet = menuFlyoutItem.DataContext as Set;
+            JsonFunc.DeleteSet();
+
+            if (ViewModel.instance.Sets.Count != 0)
+            {
+                ViewModel.instance.SelectedSet = ViewModel.instance.Sets.First();
+            }
+        }
+
+        private void Context_DeleteDeck_Click(object sender, RoutedEventArgs e)
+        {
+            var menuFlyoutItem = sender as MenuFlyoutItem;
+            ViewModel.instance.SelectedDeck = menuFlyoutItem.DataContext as Deck;
+            JsonFunc.DeleteDeck();
+
+            if (ViewModel.instance.SelectedSet.Decks.Count != 0)
+            {
+                ViewModel.instance.SelectedDeck = ViewModel.instance.SelectedSet.Decks.First();
+            }
         }
     }
 }

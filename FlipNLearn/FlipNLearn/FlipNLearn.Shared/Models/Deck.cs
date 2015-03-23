@@ -12,6 +12,6 @@ namespace FlipNLearn.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public Color Color { get; set; }
-        public List<Card> Cards { get; set; }
+        public ObservableCollection<Card> Cards { get; set; }
     }
 }
