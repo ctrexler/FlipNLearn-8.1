@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlipNLearn.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -103,6 +104,9 @@ namespace FlipNLearn
 
             // Ensure the current window is active
             Window.Current.Activate();
+
+            // Load data
+            JsonFunc.Deserialize();
         }
 
 #if WINDOWS_PHONE_APP

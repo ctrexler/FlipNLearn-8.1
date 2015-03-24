@@ -107,6 +107,11 @@ namespace FlipNLearn
             (sender as Border).BorderThickness = new Thickness(3);
             LastSelected = (sender as Border);
             ViewModel.instance.AddSetColor = (GridViewColors.SelectedItem as ApprovedColor).Color;
+
+            foreach (Set set in ViewModel.instance.Sets)
+            {
+                System.Diagnostics.Debug.WriteLine(set.Name);
+            }
         }
 
         private void Button_CancelDeck_Click(object sender, RoutedEventArgs e)

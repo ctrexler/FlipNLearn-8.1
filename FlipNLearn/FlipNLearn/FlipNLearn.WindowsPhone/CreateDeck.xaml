@@ -100,7 +100,7 @@
                                     <GridView x:Name="GridViewColors" ItemsSource="{Binding ApprovedColors}" Margin="0,0,0,30">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>
-                                                <Border Tapped="Color_Tapped" BorderThickness="1" BorderBrush="White" Height="50" Width="50" Margin="1">
+                                                <Border Tapped="Color_Tapped" BorderThickness="0" BorderBrush="White" Height="50" Width="50" Margin="1">
                                                     <Rectangle Height="50" Width="50"
                                                                Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" />
                                                 </Border>

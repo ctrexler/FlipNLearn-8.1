@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using Windows.UI;
 using System.ComponentModel;
+using Windows.UI.Core;
 
 namespace FlipNLearn
 {
@@ -24,13 +25,33 @@ namespace FlipNLearn
         }
         
         // Sets
-        public ObservableCollection<Set> Sets { get; set; }
+        public ObservableCollection<Set> _Sets { get; set; }
+        public ObservableCollection<Set> Sets
+        {
+            get { return this._Sets; }
+            set {
+                if (value != this._Sets)
+                {
+                    this._Sets = value;
+                    NotifyPropertyChanged("Sets");
+                    NotifyPropertyChanged("SelectedSet");
+                    NotifyPropertyChanged("SelectedDeck");
+                }
+            }
+        }
 
         // Selected Set
-        private Set _SelectedSet { get; set; }
+        private Set _SelectedSet = null;
         public Set SelectedSet
         {
-            get { return this._SelectedSet; }
+            get
+            {
+                if (_SelectedSet == null)
+                {
+                    _SelectedSet = Sets.FirstOrDefault();
+                }
+                return _SelectedSet;
+            }
             set {
                 if (value != this._SelectedSet)
                 {
@@ -39,19 +60,30 @@ namespace FlipNLearn
                 }
             }
         }
-        
+
         // Selected Deck
-        private Deck _SelectedDeck;
+        private Deck _SelectedDeck = null;
         public Deck SelectedDeck
         {
             get
             {
+                if (_SelectedDeck == null)
+                {
+                    if (SelectedSet == null)
+                    {
+                        return null;
+                    }
+                    _SelectedDeck = SelectedSet.Decks.FirstOrDefault();
+                }
                 return _SelectedDeck;
             }
             set
             {
-                _SelectedDeck = value;
-                NotifyPropertyChanged("SelectedDeck");
+                if (value != this._SelectedDeck)
+                {
+                    this._SelectedDeck = value;
+                    NotifyPropertyChanged("SelectedDeck");
+                }
             }
         }
 
@@ -70,6 +102,7 @@ namespace FlipNLearn
             }
         }
 
+        // Adding Set
         public string _AddSetName { get; set; }
         public string AddSetName
         {
@@ -82,10 +115,9 @@ namespace FlipNLearn
                 }
             }
         }
-        
         public Color AddSetColor { get; set; }
-
-
+        
+        // Adding Deck
         public string _AddDeckName { get; set; }
         public string AddDeckName
         {
@@ -99,7 +131,8 @@ namespace FlipNLearn
                 }
             }
         }
-
+        
+        // Adding Card
         public string _AddCardFrontText { get; set; }
         public string AddCardFrontText
         {
@@ -126,18 +159,17 @@ namespace FlipNLearn
                 }
             }
         }
-
         public Color AddCardColor { get; set; }
 
         // Approved Colors
         public List<ApprovedColor> ApprovedColors { get; set; }
 
-        // DataModel
+        // ViewModel Constructor
         public ViewModel()
         {
             // Hard-coded Data
-            Sets = new ObservableCollection<Set>()
-            {
+            Sets = new ObservableCollection<Set>();
+            //{
                 //new Set() {
                 //    Name = "Geography",
                 //    Color = Colors.SteelBlue,
@@ -228,48 +260,11 @@ namespace FlipNLearn
                 //        }
                 //    }
                 //}
-            };
+            //};
 
             ViewModel.instance = this;
 
-            JsonFunc.Deserialize();
-
-            // App Loading Assignments
-            if (Sets.Count != 0)
-            {
-                SelectedSet = Sets.First();
-                System.Diagnostics.Debug.WriteLine("Setting Set to: " + SelectedSet.Name);
-                if (SelectedSet.Decks.Count != 0)
-                {
-                    SelectedDeck = SelectedSet.Decks.First();
-                }
-            }
-
-            // Approved Colors
-            ApprovedColors = new List<ApprovedColor>()
-            {
-                new ApprovedColor() {
-                    Color = Colors.Red,
-                },
-                new ApprovedColor() {
-                    Color = Colors.Orange,
-                },
-                new ApprovedColor() {
-                    Color = Colors.ForestGreen,
-                },
-                new ApprovedColor() {
-                    Color = Colors.SteelBlue,
-                },
-                new ApprovedColor() {
-                    Color = Colors.Purple,
-                },
-                new ApprovedColor() {
-                    Color = Colors.DeepPink,
-                },
-                new ApprovedColor() {
-                    Color = Colors.Black,
-                }
-            };
+            InitializeColorGrid();
         }
 
         public void AddSet()
@@ -298,6 +293,33 @@ namespace FlipNLearn
                 BackText = AddCardBackText,
                 Color = AddCardColor
             });
+        }
+
+        public void InitializeColorGrid() {
+            ApprovedColors = new List<ApprovedColor>()
+            {
+                new ApprovedColor() {
+                    Color = Colors.Red,
+                },
+                new ApprovedColor() {
+                    Color = Colors.Orange,
+                },
+                new ApprovedColor() {
+                    Color = Colors.ForestGreen,
+                },
+                new ApprovedColor() {
+                    Color = Colors.SteelBlue,
+                },
+                new ApprovedColor() {
+                    Color = Colors.Purple,
+                },
+                new ApprovedColor() {
+                    Color = Colors.DeepPink,
+                },
+                new ApprovedColor() {
+                    Color = Colors.Black,
+                }
+            };
         }
     }
 }

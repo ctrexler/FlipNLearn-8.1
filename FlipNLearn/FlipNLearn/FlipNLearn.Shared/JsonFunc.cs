@@ -7,6 +7,9 @@ using System.Collections.ObjectModel;
 using System.Text;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using System.Threading.Tasks;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace FlipNLearn.Models
 {
@@ -19,6 +22,7 @@ namespace FlipNLearn.Models
             if (!ViewModel.instance.Sets.Any(s => s.Name == set.Name))
             {
                 ViewModel.instance.Sets.Add(set);
+
                 Serialize();
             }
         }
@@ -51,6 +55,7 @@ namespace FlipNLearn.Models
             if (!ViewModel.instance.SelectedSet.Decks.Any(d => d.Name == deck.Name))
             {
                 ViewModel.instance.SelectedSet.Decks.Add(deck);
+                
                 Serialize();
             }
         }
@@ -73,6 +78,7 @@ namespace FlipNLearn.Models
         public static void AddCard(Card card)
         {
                 ViewModel.instance.SelectedDeck.Cards.Add(card);
+
                 Serialize();
         }
 
@@ -88,7 +94,6 @@ namespace FlipNLearn.Models
             // Serialize our Product class into a string
             // Changed to serialze the List
             string jsonContents = JsonConvert.SerializeObject(ViewModel.instance.Sets);
-            System.Diagnostics.Debug.WriteLine(ViewModel.instance.Sets.Last().Name);
 
             // Get the app data folder and create or replace the file we are storing the JSON in.
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
@@ -108,8 +113,6 @@ namespace FlipNLearn.Models
 
         async public static void Deserialize()
         {
-            System.Diagnostics.Debug.WriteLine("DESERIALIZING!");
-
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             try
             {
@@ -126,13 +129,13 @@ namespace FlipNLearn.Models
                         await textReader.LoadAsync(textLength);
                         // read it
                         string jsonContents = textReader.ReadString(textLength);
-                        System.Diagnostics.Debug.WriteLine(jsonContents);
                         // deserialize back to our products!
-                        var result = JsonConvert.DeserializeObject<IList<Set>>(jsonContents);
-                        foreach (Set set in result)
-                        {
-                            ViewModel.instance.Sets.Add(set);
-                        }
+                        var sets = JsonConvert.DeserializeObject<ObservableCollection<Set>>(jsonContents);
+                        //await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                        //() =>
+                        //{
+                            ViewModel.instance.Sets = sets;
+                        //});
                     }
                 }
             }
@@ -141,7 +144,5 @@ namespace FlipNLearn.Models
                 System.Diagnostics.Debug.WriteLine("[JSON RETRIEVAL FAILED]");
             }
         }
-
-
     }
 }

@@ -16,6 +16,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)JsonFunc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ApprovedColor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Deck.cs" />
@@ -27,8 +28,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\ColorToBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ValueConverters\SelectedCardIndexConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Resources\" />
   </ItemGroup>
 </Project>

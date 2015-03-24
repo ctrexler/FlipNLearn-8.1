@@ -104,7 +104,7 @@
 
                                 <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Margin="20,0,0,0" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="20"/>
                                 <Grid Height="164" Width="260">
-                                    <Rectangle Fill="{Binding Cards[0].Color, Converter={StaticResource ColorToBrushConverter}}"
+                                    <Rectangle Fill="{Binding Cards[0].Color, Converter={StaticResource ColorToBrushConverter}, FallbackValue=Black}"
                                            Stroke="{Binding Cards[0].Color, Converter={StaticResource CheckCardListNullConverter}, ConverterParameter='Stroke', FallbackValue='#7f7f7f'}"  
                                            StrokeDashArray="{Binding Cards.Count, Converter={StaticResource CheckCardListNullConverter}, ConverterParameter='Dash', FallbackValue=5}"
                                            StrokeThickness="1"
@@ -146,7 +146,7 @@
                                     <GridView x:Name="GridViewColors" ItemsSource="{Binding ApprovedColors}" Margin="0,0,0,30">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>
-                                                <Border Tapped="Color_Tapped" BorderThickness="1" BorderBrush="White" Height="50" Width="50" Margin="1">
+                                                <Border Tapped="Color_Tapped" BorderThickness="0" BorderBrush="White" Height="50" Width="50" Margin="1">
                                                     <Rectangle Height="50" Width="50"
                                                                Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" />
                                                 </Border>

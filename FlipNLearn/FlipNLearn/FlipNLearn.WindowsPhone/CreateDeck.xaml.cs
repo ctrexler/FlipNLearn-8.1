@@ -111,7 +111,6 @@ namespace FlipNLearn
 
         #endregion
 
-
         private void Button_AddCard_Click(object sender, RoutedEventArgs e)
         {
             if (TextBox_FrontText.Text != ""
