@@ -15,6 +15,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using ReflectionIT.Windows8.Helpers;
+using Windows.UI.Xaml.Shapes;
+using Windows.ApplicationModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -46,12 +49,19 @@ namespace FlipNLearn
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
+
+            Button_AddSet.Visibility = Visibility.Visible;
+            Button_AddDeck.Visibility = Visibility.Visible;
         }
 
-
+        StackPanel LastSelectedSP = new StackPanel();
         private void Set_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ViewModel.instance.SelectedSet = (Set)ListViewSets.SelectedItem;
+            ViewModel.instance.SelectedSet = (ListViewSets.SelectedItem as Set);
+
+            LastSelectedSP.Background = ((sender as StackPanel).Parent as StackPanel).Background;
+            ((sender as StackPanel).Parent as StackPanel).Background = new SolidColorBrush(Colors.White);
+            LastSelectedSP = ((sender as StackPanel).Parent as StackPanel);
         }
 
         private void Deck_Tapped(object sender, TappedRoutedEventArgs e)
@@ -60,7 +70,15 @@ namespace FlipNLearn
                 && (ListViewDecks.SelectedItem as Deck).Cards.Count != 0)
             {
                 ViewModel.instance.SelectedDeck = (Deck)ListViewDecks.SelectedItem;
-                ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards[0];
+                ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.FirstOrDefault();
+                Frame.Navigate(typeof(ViewDeck));
+            }
+            else
+            {
+                ViewModel.instance.SelectedDeck = (Deck)ListViewDecks.SelectedItem;
+                ViewModel.instance.SelectedDeck.Cards.Add(new Card());
+                ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.LastOrDefault();
+                ViewModel.instance.IsCreatingDeck = true;
                 Frame.Navigate(typeof(ViewDeck));
             }
         }
@@ -73,11 +91,18 @@ namespace FlipNLearn
                     new Deck()
                     {
                         Name = TextBox_DeckName.Text,
-                        Cards = new ObservableCollection<Card>()
+                        Cards = new ObservableCollection<Card>() {
+                            new Card()
+                        }
                     }
                 );
-                ViewModel.instance.SelectedDeck = ViewModel.instance.SelectedSet.Decks.Last();
-                Frame.Navigate(typeof(CreateDeck));
+                ViewModel.instance.IsCreatingDeck = true;
+                ViewModel.instance.SelectedDeck = ViewModel.instance.SelectedSet.Decks.LastOrDefault();
+                ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.LastOrDefault();
+                
+                TextBox_DeckName.Text = "";
+                
+                Frame.Navigate(typeof(ViewDeck));
             }
         }
 
@@ -90,14 +115,19 @@ namespace FlipNLearn
                 Flyout_AddSet.Hide();
 
                 TextBox_SetName.Text = "";
+
+                Button_AddSet.Visibility = Visibility.Visible;
+                Button_AddDeck.Visibility = Visibility.Visible;
             }
         }
 
         private void Button_CancelSet_Click(object sender, RoutedEventArgs e)
         {
             Flyout_AddSet.Hide();
-            
             TextBox_SetName.Text = "";
+
+            Button_AddSet.Visibility = Visibility.Visible;
+            Button_AddDeck.Visibility = Visibility.Visible;
         }
         
         Border LastSelected = new Border();
@@ -107,48 +137,68 @@ namespace FlipNLearn
             (sender as Border).BorderThickness = new Thickness(3);
             LastSelected = (sender as Border);
             ViewModel.instance.AddSetColor = (GridViewColors.SelectedItem as ApprovedColor).Color;
-
-            foreach (Set set in ViewModel.instance.Sets)
-            {
-                System.Diagnostics.Debug.WriteLine(set.Name);
-            }
         }
 
         private void Button_CancelDeck_Click(object sender, RoutedEventArgs e)
         {
             Flyout_CreateDeck.Hide();
             TextBox_DeckName.Text = "";
+
+            Button_AddSet.Visibility = Visibility.Visible;
+            Button_AddDeck.Visibility = Visibility.Visible;
         }
 
-        private void Context_EditDeck_Click(object sender, RoutedEventArgs e)
-        {
-            var menuFlyoutItem = sender as MenuFlyoutItem;
-            ViewModel.instance.SelectedDeck = menuFlyoutItem.DataContext as Deck;
-            Frame.Navigate(typeof(CreateDeck));
-        }
-
-        private void Context_DeleteSet_Click(object sender, RoutedEventArgs e)
+        private async void Context_DeleteSet_Click(object sender, RoutedEventArgs e)
         {
             var menuFlyoutItem = sender as MenuFlyoutItem;
             ViewModel.instance.SelectedSet = menuFlyoutItem.DataContext as Set;
-            JsonFunc.DeleteSet();
 
-            if (ViewModel.instance.Sets.Count != 0)
+            var result = await MessageBox.ShowAsync("By clicking \"yes\" you will be deleting this Set and all of its Decks and Cards", "Are you sure?",
+                                                    MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
             {
-                ViewModel.instance.SelectedSet = ViewModel.instance.Sets.First();
+                JsonFunc.DeleteSet();
+
+                if (ViewModel.instance.Sets.Count != 0)
+                {
+                    ViewModel.instance.SelectedSet = ViewModel.instance.Sets.First();
+                }  
             }
         }
 
-        private void Context_DeleteDeck_Click(object sender, RoutedEventArgs e)
+        private async void Context_DeleteDeck_Click(object sender, RoutedEventArgs e)
         {
             var menuFlyoutItem = sender as MenuFlyoutItem;
             ViewModel.instance.SelectedDeck = menuFlyoutItem.DataContext as Deck;
-            JsonFunc.DeleteDeck();
 
-            if (ViewModel.instance.SelectedSet.Decks.Count != 0)
+            var result = await MessageBox.ShowAsync("By clicking \"yes\" you will be deleting this Deck and all of its Cards", "Are you sure?",
+                                                    MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
             {
-                ViewModel.instance.SelectedDeck = ViewModel.instance.SelectedSet.Decks.First();
+                JsonFunc.DeleteDeck();
+
+                if (ViewModel.instance.SelectedSet.Decks.Count != 0)
+                {
+                    ViewModel.instance.SelectedDeck = ViewModel.instance.SelectedSet.Decks.First();
+                }
             }
+        }
+
+        private void Button_About_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(About));
+        }
+
+        private void Button_AddSet_Click(object sender, RoutedEventArgs e)
+        {
+            Button_AddSet.Visibility = Visibility.Collapsed;
+            Button_AddDeck.Visibility = Visibility.Collapsed;
+        }
+
+        private void Button_AddDeck_Click(object sender, RoutedEventArgs e)
+        {
+            Button_AddSet.Visibility = Visibility.Collapsed;
+            Button_AddDeck.Visibility = Visibility.Collapsed;
         }
     }
 }

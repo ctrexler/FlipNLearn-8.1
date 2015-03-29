@@ -16,7 +16,7 @@ namespace FlipNLearn
 
         // INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String info)
+        public void NotifyPropertyChanged(String info)
         {
             if (PropertyChanged != null)
             {
@@ -164,103 +164,15 @@ namespace FlipNLearn
         // Approved Colors
         public List<ApprovedColor> ApprovedColors { get; set; }
 
+        // Create Deck Edit Mode Bool
+        public bool IsCreatingDeck { get; set; }
+
         // ViewModel Constructor
         public ViewModel()
         {
             // Hard-coded Data
+            IsCreatingDeck = false;
             Sets = new ObservableCollection<Set>();
-            //{
-                //new Set() {
-                //    Name = "Geography",
-                //    Color = Colors.SteelBlue,
-                //    Decks = new ObservableCollection<Deck>() {
-                //        new Deck() {
-                //            Name = "US Capitals",
-                //            Cards = new ObservableCollection<Card>() {
-                //                new Card() {
-                //                    Color = Colors.DeepPink,
-                //                    FrontText="Alaska",
-                //                    BackText="Anchorage"
-                //                },
-                //                new Card() {
-                //                    Color = Colors.DeepPink,
-                //                    FrontText="Texas",
-                //                    BackText="Austin"
-                //                },
-                //                new Card() {
-                //                    Color = Colors.DeepPink,
-                //                    FrontText="Maine",
-                //                    BackText="Augusta"
-                //                },
-                //                new Card() {
-                //                    Color = Colors.DeepPink,
-                //                    FrontText="Vermont",
-                //                    BackText="Mont Pelier"
-                //                },
-                //                new Card() {
-                //                    Color = Colors.DeepPink,
-                //                    FrontText="Louisiana",
-                //                    BackText="Baton Rouge"
-                //                }
-                //            }
-                //        },
-                //        new Deck() {
-                //            Name = "Elements",
-                //            Cards = new ObservableCollection<Card>() {
-                //                new Card() {
-                //                    Color = Colors.DeepPink,
-                //                    FrontText="Es",
-                //                    BackText="Einsteinium"
-                //                },
-                //                new Card() {
-                //                    Color = Colors.DeepPink,
-                //                    FrontText="Ag",
-                //                    BackText="Silver"
-                //                },
-                //                new Card() {
-                //                    Color = Colors.DeepPink,
-                //                    FrontText="Hg",
-                //                    BackText="Mercury"
-                //                },
-                //                new Card() {
-                //                    Color = Colors.DeepPink,
-                //                    FrontText="Y",
-                //                    BackText="Yttrium"
-                //                },
-                //                new Card() {
-                //                    Color = Colors.DeepPink,
-                //                    FrontText="Rw",
-                //                    BackText="Doesn't Exist!"
-                //                }
-                //            }
-                //        }
-                //    }
-                //},
-                //new Set() {
-                //    Name = "Sample Set 2",
-                //    Color = Colors.SteelBlue,
-                //    Decks = new ObservableCollection<Deck>() {
-                //        new Deck() {
-                //            Name = "Sample Deck 2.1",
-                //            Cards = new ObservableCollection<Card>() {
-                //                new Card() {
-                //                    Color = Colors.DeepPink,
-                //                    FrontText="Sample Card 2.1.1F",
-                //                    BackText="Sample Card 2.1.2B"
-                //                },
-                //                new Card() {
-                //                    Color = Colors.DeepPink,
-                //                    FrontText="Sample Card 2.1.2F",
-                //                    BackText="Sample Card 2.1.2B"
-                //                }
-                //            }
-                //        },
-                //        new Deck() {
-                //            Name = "Sample Deck 2.2"
-                //        }
-                //    }
-                //}
-            //};
 
             ViewModel.instance = this;
 
@@ -299,10 +211,10 @@ namespace FlipNLearn
             ApprovedColors = new List<ApprovedColor>()
             {
                 new ApprovedColor() {
-                    Color = Colors.Red,
+                    Color = Colors.OrangeRed,
                 },
                 new ApprovedColor() {
-                    Color = Colors.Orange,
+                    Color = Colors.DarkOrange,
                 },
                 new ApprovedColor() {
                     Color = Colors.ForestGreen,
@@ -311,7 +223,7 @@ namespace FlipNLearn
                     Color = Colors.SteelBlue,
                 },
                 new ApprovedColor() {
-                    Color = Colors.Purple,
+                    Color = Colors.DarkViolet,
                 },
                 new ApprovedColor() {
                     Color = Colors.DeepPink,

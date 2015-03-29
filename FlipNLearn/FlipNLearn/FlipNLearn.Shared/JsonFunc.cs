@@ -10,6 +10,8 @@ using Windows.Storage.Streams;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using System.IO;
+using Windows.UI;
 
 namespace FlipNLearn.Models
 {
@@ -114,10 +116,12 @@ namespace FlipNLearn.Models
         async public static void Deserialize()
         {
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            StorageFile textFile;
+            bool FileNotFound = false;
             try
             {
                 // Getting JSON from file if it exists, or file not found exception if it does not
-                StorageFile textFile = await localFolder.GetFileAsync(jsonFileName);
+                textFile = await localFolder.GetFileAsync(jsonFileName);
 
                 using (IRandomAccessStream textStream = await textFile.OpenReadAsync())
                 {
@@ -139,9 +143,82 @@ namespace FlipNLearn.Models
                     }
                 }
             }
-            catch (Exception ex)
+            catch (FileNotFoundException ex)
             {
-                System.Diagnostics.Debug.WriteLine("[JSON RETRIEVAL FAILED]");
+                    FileNotFound = true;
+            }
+            if (FileNotFound)
+            {
+                textFile = await localFolder.CreateFileAsync(jsonFileName);
+                ViewModel.instance.Sets.Add(new Set()
+                {
+                    Name = "Hello World!",
+                    Color = Colors.SteelBlue,
+                    Decks = new ObservableCollection<Deck>()
+                {
+                    new Deck() 
+                    {
+                        Name = "Welcome to FlipNLearn",
+                        Cards = new ObservableCollection<Card>()
+                        {
+                            new Card()
+                            {
+                                FrontText = "Tap here to get started!",
+                                BackText = "Swipe left or right to see another card",
+                                Color = Colors.OrangeRed
+                            },
+                            new Card()
+                            {
+                                FrontText = "Click the pencil below to edit this deck, then tap here to flip the card over.",
+                                BackText = "Notice the edit box changes to match the side being viewed! Now, swipe left.",
+                                Color = Colors.DarkOrange
+                            },
+                            new Card()
+                            {
+                                FrontText = "The text also changes to match the card! Please flip.",
+                                BackText = "Type in the box below, and this text will change immediately!\n(Then swipe left)",
+                                Color = Colors.ForestGreen
+                            },
+                            new Card()
+                            {
+                                FrontText = "Tapping a color will change the color of this card!",
+                                BackText = "Pressing the back button will exit Edit Mode and auto-save any changes!",
+                                Color = Colors.SteelBlue
+                            },
+                            new Card()
+                            {
+                                FrontText = "Thanks for downloading FlipNLearn! Please...",
+                                BackText = "...press the back button to go back to the main menu!",
+                                Color = Colors.DarkViolet
+                            },
+                        }
+                    },
+                    new Deck() {
+                        Name = "Press and hold this deck...",
+                        Cards = new ObservableCollection<Card>() {
+                            new Card() {
+                                FrontText = "...to delete it!",
+                                BackText = "Nothing to see here :o"
+                            }
+                        }
+                    },
+                    new Deck() {
+                        Name = "Use the buttons below...",
+                        Cards = new ObservableCollection<Card>() {
+                            new Card() {
+                                FrontText = "...to adds sets and create decks!",
+                            }
+                        }
+                    }
+                }
+                });
+                ViewModel.instance.Sets.Add(new Set()
+                {
+                    Name = "Hold here!",
+                    Color = Colors.DeepPink,
+                    Decks = new ObservableCollection<Deck>()
+                });
+                Serialize();
             }
         }
     }

@@ -9,6 +9,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
+using Windows.UI;
 using Windows.UI.Input;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -107,6 +108,14 @@ namespace FlipNLearn
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.navigationHelper.OnNavigatedTo(e);
+            if (ViewModel.instance.IsCreatingDeck == true)
+            {
+                StackPanel_EditMode.Visibility = Visibility.Visible;
+
+                AppBarButton_EditMode.Visibility = Visibility.Collapsed;
+                AppBarButton_AddCard.Visibility = Visibility.Visible;
+                AppBarButton_DeleteCard.Visibility = Visibility.Visible;
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -116,9 +125,27 @@ namespace FlipNLearn
 
         #endregion
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (ViewModel.instance.IsCreatingDeck == true)
+            {
+                e.Cancel = true;
+
+                StackPanel_EditMode.Visibility = Visibility.Collapsed;
+
+                AppBarButton_EditMode.Visibility = Visibility.Visible;
+                AppBarButton_AddCard.Visibility = Visibility.Collapsed;
+                AppBarButton_DeleteCard.Visibility = Visibility.Collapsed;
+
+                ViewModel.instance.IsCreatingDeck = false;
+
+                JsonFunc.Serialize();
+            }
+        }
+
         private void swipingSurface_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-
+            // Nothing
         }
 
         int i = 0;
@@ -126,56 +153,167 @@ namespace FlipNLearn
         {
             var velocities = e.Velocities;
 
-            if (velocities.Linear.X < -1.5)
+            if (velocities.Linear.X < 0)
             {
                 if (i + 1 > ViewModel.instance.SelectedDeck.Cards.Count -1)
                     i = 0;
                 else
                     i++;
-                if (!flag)
+                if (!cardFacedFront)
                 {
+                    cardFront.Visibility = Visibility.Visible;
                     await FlipToFront.BeginAsync();
-                    flag = true;
+                    cardBack.Visibility = Visibility.Collapsed;
+                    TextBox_FrontText.Visibility = Visibility.Visible;
+                    TextBox_BackText.Visibility = Visibility.Collapsed;
+                    cardFacedFront = true;
                 }
                 ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.ElementAt(i);
                 TextBlock_CardNumber.Text = (i+1).ToString();
             }
-            else if (velocities.Linear.X > 1.5)
+            else if (velocities.Linear.X > 0)
             {
                 if (i - 1 < 0)
                     i = ViewModel.instance.SelectedDeck.Cards.Count - 1;
                 else
                     i--;
-                if (!flag)
+                if (!cardFacedFront)
                 {
+                    cardFront.Visibility = Visibility.Visible;
                     await FlipToFront.BeginAsync();
-                    flag = true;
+                    cardBack.Visibility = Visibility.Collapsed;
+                    TextBox_FrontText.Visibility = Visibility.Visible;
+                    TextBox_BackText.Visibility = Visibility.Collapsed;
+                    cardFacedFront = true;
                 }
                 ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.ElementAt(i);
                 TextBlock_CardNumber.Text = (i+1).ToString();
             }
         }
 
-        bool flag = true;
-        private void Card_Tapped(object sender, TappedRoutedEventArgs e)
+        bool cardFacedFront = true;
+        private async void Card_Tapped(object sender, TappedRoutedEventArgs e)
         {
 
-            if (flag)
+            if (cardFacedFront)
             {
                 FlipToBack.BeginTime = new TimeSpan(0);
-                FlipToBack.Begin();
-                flag = false;
+                cardBack.Visibility = Visibility.Visible;
+                await FlipToBack.BeginAsync();
+                cardFront.Visibility = Visibility.Collapsed;
+                TextBox_FrontText.Visibility = Visibility.Collapsed;
+                TextBox_BackText.Visibility = Visibility.Visible;
+                cardFacedFront = false;
             }
             else
             {
-                FlipToFront.Begin();
-                flag = true;
+                cardFront.Visibility = Visibility.Visible;
+                await FlipToFront.BeginAsync();
+                cardBack.Visibility = Visibility.Collapsed;
+                TextBox_FrontText.Visibility = Visibility.Visible;
+                TextBox_BackText.Visibility = Visibility.Collapsed;
+                cardFacedFront = true;
             }
         }
 
         private void Button_EditDeck_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(CreateDeck));
+                StackPanel_EditMode.Visibility = Visibility.Visible;
+
+                AppBarButton_EditMode.Visibility = Visibility.Collapsed;
+                AppBarButton_AddCard.Visibility = Visibility.Visible;
+                AppBarButton_DeleteCard.Visibility = Visibility.Visible;
+
+                ViewModel.instance.IsCreatingDeck = true;
         }
+
+        Border LastSelected = new Border();
+        private void Color_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            LastSelected.BorderThickness = new Thickness(1);
+            (sender as Border).BorderThickness = new Thickness(3);
+            LastSelected = (sender as Border);
+            ViewModel.instance.AddCardColor = (GridViewColors.SelectedItem as ApprovedColor).Color;
+            ViewModel.instance.SelectedCard.Color = (GridViewColors.SelectedItem as ApprovedColor).Color;
+        }
+
+        async private void Button_AddCard_Click(object sender, RoutedEventArgs e)
+        {
+            Color defaultColor = ViewModel.instance.SelectedCard.Color;
+            ViewModel.instance.SelectedDeck.Cards.Add(new Card() { Color = defaultColor });
+            ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.LastOrDefault();
+            TextBlock_CardNumber.Text = ViewModel.instance.SelectedDeck.Cards.Count.ToString();
+            i = ViewModel.instance.SelectedDeck.Cards.Count;
+            StackPanel_CardArea.Visibility = Visibility.Visible;
+            StackPanel_EditMode.Visibility = Visibility.Visible;
+
+            if (!cardFacedFront)
+            {
+                cardFront.Visibility = Visibility.Visible;
+                await FlipToFront.BeginAsync();
+                cardBack.Visibility = Visibility.Collapsed;
+                TextBox_FrontText.Visibility = Visibility.Visible;
+                TextBox_BackText.Visibility = Visibility.Collapsed;
+                cardFacedFront = true;
+            }
+        }
+
+        private void Button_DeleteCard_Click(object sender, RoutedEventArgs e)
+        {
+            //int cardIndex = (ViewModel.instance.SelectedDeck.Cards.IndexOf(ViewModel.instance.SelectedCard) - 1);
+            JsonFunc.DeleteCard();
+
+            if (ViewModel.instance.SelectedDeck.Cards.Count != 0)
+            {
+                ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.LastOrDefault();
+                TextBlock_CardNumber.Text = (ViewModel.instance.SelectedDeck.Cards.IndexOf(ViewModel.instance.SelectedDeck.Cards.LastOrDefault()) + 1).ToString();
+            }
+            else
+            {
+                TextBlock_CardNumber.Text = "0";
+                StackPanel_CardArea.Visibility = Visibility.Collapsed;
+                StackPanel_EditMode.Visibility = Visibility.Collapsed;
+            }
+
+            //if (ViewModel.instance.SelectedDeck.Cards.Count > 2)
+            //{
+            //    ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.ElementAt(cardIndex);
+            //    TextBlock_CardNumber.Text = cardIndex.ToString();
+            //}
+            //else if (ViewModel.instance.SelectedDeck.Cards.Count == 2)
+            //{
+            //    ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.ElementAt(cardIndex);
+            //    TextBlock_CardNumber.Text = "1";
+            //}
+            //else
+            //{
+            //    TextBlock_CardNumber.Text = "0";
+            //    Frame.Navigate(typeof(MainPage));
+            //}
+        }
+
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            cardFront.Height = 125;
+            cardFront.Width = 200;
+            cardBack.Height = 125;
+            cardBack.Width = 200;
+            frontText.LineHeight = 22;
+            backText.LineHeight = 22;
+            frontText.FontSize = 18;
+            backText.FontSize = 18;
+        }
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            cardFront.Height = 250;
+            cardFront.Width = Window.Current.Bounds.Width;
+            cardBack.Height = 250;
+            cardBack.Width = Window.Current.Bounds.Width;
+            frontText.LineHeight = 45;
+            backText.LineHeight = 45;
+            frontText.FontSize = 36;
+            backText.FontSize = 36;
+        }
+
     }
 }

@@ -17,6 +17,7 @@
 
     <Page.Resources>
 
+        <converter:ColorToApprovedColorConverter x:Key="ColorToApprovedColorConverter" />
         <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
         <converter:SelectedCardIndexConverter x:Key="SelectedCardIndexConverter" />
 
@@ -87,59 +88,87 @@
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0" ManipulationStarted="swipingSurface_ManipulationStarted" ManipulationCompleted="swipingSurface_ManipulationCompleted">
             <TextBlock Text="{Binding SelectedSet.Name}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
-            <TextBlock Text="{Binding SelectedDeck.Name}" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+            <TextBlock Text="{Binding SelectedDeck.Name}" Margin="0,-6.5,0,16.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" Margin="0,0,0,0">
-            
-            <StackPanel Orientation="Vertical">
-                <!-- Card Front -->
-                <Grid Margin="0,0,0,5" x:Name="swipingSurface">
-                    <Border x:Name="cardFront" BorderBrush="White" Height="250"  VerticalAlignment="Top" Margin="0,30,0,0" BorderThickness="1,1,1,1">
-                        <Border.RenderTransform>
-                            <CompositeTransform/>
-                        </Border.RenderTransform>
-                        <Border.Projection>
-                            <PlaneProjection RotationX="0"/>
-                        </Border.Projection>
-                        <Grid Height="Auto" Width="Auto" Background="{Binding SelectedCard.Color, Converter={StaticResource ColorToBrushConverter}}" Tapped="Card_Tapped">
-                            <TextBlock x:Name="frontText" Text="{Binding SelectedCard.FrontText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="36"  TextWrapping="WrapWholeWords">
-                                <TextBlock.RenderTransform>
-                                    <CompositeTransform/>
-                                </TextBlock.RenderTransform>
-                            </TextBlock>
-                        </Grid>
-                    </Border>
 
-                    <!-- Card Back -->
-                    <Border x:Name="cardBack" BorderBrush="White" Height="250"  VerticalAlignment="Top" Margin="0,30,0,0" BorderThickness="1,1,1,1">
-                        <Border.RenderTransform>
-                            <CompositeTransform/>
-                        </Border.RenderTransform>
-                        <Border.Projection>
-                            <PlaneProjection RotationX="-90"/>
-                        </Border.Projection>
-                        <Grid Height="Auto" Width="Auto" Background="{Binding SelectedCard.Color, Converter={StaticResource ColorToBrushConverter}}" Tapped="Card_Tapped">
-                            <TextBlock x:Name="backText" Text="{Binding SelectedCard.BackText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="36" TextWrapping="WrapWholeWords">
-                                <TextBlock.RenderTransform>
-                                    <CompositeTransform/>
-                                </TextBlock.RenderTransform>
-                            </TextBlock>
-                        </Grid>
-                    </Border>
-                </Grid>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,10,0">
-                    <TextBlock x:Name="TextBlock_CardNumber" Text="1" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16"/>
-                    <TextBlock Text="/" Margin="5,0,5,0" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16"/>
-                    <TextBlock Text="{Binding SelectedDeck.Cards.Count}" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16"/>
+            <StackPanel>
+                <StackPanel x:Name="StackPanel_CardArea" Orientation="Vertical" Margin="0,0,0,0">
+                    <!-- Card Front -->
+                    <Grid Margin="0,0,0,0" x:Name="swipingSurface">
+                        <Border x:Name="cardFront" BorderBrush="White" Height="250" Width="Auto" VerticalAlignment="Top" Margin="0,30,0,0" BorderThickness="1,1,1,1">
+                            <Border.RenderTransform>
+                                <CompositeTransform/>
+                            </Border.RenderTransform>
+                            <Border.Projection>
+                                <PlaneProjection RotationX="0"/>
+                            </Border.Projection>
+                            <Grid Height="Auto" Width="Auto" Background="{Binding SelectedCard.Color, Converter={StaticResource ColorToBrushConverter}}" Tapped="Card_Tapped">
+                                <!--<ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">-->
+                                <TextBlock x:Name="frontText" Text="{Binding SelectedCard.FrontText}" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="36"  TextWrapping="WrapWholeWords" LineHeight="45" LineStackingStrategy="BlockLineHeight">
+                                    <TextBlock.RenderTransform>
+                                        <CompositeTransform/>
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                                <!--</ScrollViewer>-->
+                            </Grid>
+                        </Border>
+
+                        <!-- Card Back -->
+                        <Border x:Name="cardBack" Visibility="Collapsed" BorderBrush="White" Height="250" Width="Auto" VerticalAlignment="Top" Margin="0,30,0,0" BorderThickness="1,1,1,1">
+                            <Border.RenderTransform>
+                                <CompositeTransform/>
+                            </Border.RenderTransform>
+                            <Border.Projection>
+                                <PlaneProjection RotationX="-90"/>
+                            </Border.Projection>
+                            <Grid Height="Auto" Width="Auto" Background="{Binding SelectedCard.Color, Converter={StaticResource ColorToBrushConverter}}" Tapped="Card_Tapped">
+                                <ScrollViewer>
+                                    <TextBlock x:Name="backText" Text="{Binding SelectedCard.BackText}" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="36" TextWrapping="WrapWholeWords" LineHeight="45" LineStackingStrategy="BlockLineHeight">
+                                        <TextBlock.RenderTransform>
+                                            <CompositeTransform/>
+                                        </TextBlock.RenderTransform>
+                                    </TextBlock>
+                                </ScrollViewer>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,10,0">
+                        <TextBlock x:Name="TextBlock_CardNumber" Text="1" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16"/>
+                        <TextBlock Text="/" Margin="5,0,5,0" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16"/>
+                        <TextBlock Text="{Binding SelectedDeck.Cards.Count}" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel x:Name="StackPanel_EditMode" Visibility="Collapsed">
+                    <StackPanel x:Name="TextBox_FrontText">
+                        <TextBlock Text="front" Margin="20,0,0,0" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16" />
+                        <TextBox Margin="20,5,20,10" Text="{Binding SelectedCard.FrontText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
+                    </StackPanel>
+                    <StackPanel x:Name="TextBox_BackText" Visibility="Collapsed">
+                        <TextBlock Text="back" Margin="20,0,0,0" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16" />
+                        <TextBox Margin="20,5,20,10" Text="{Binding SelectedCard.BackText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
+                    </StackPanel>
+                    <GridView x:Name="GridViewColors" HorizontalAlignment="Center" ItemsSource="{Binding ApprovedColors}" Margin="0,0,0,30" SelectedIndex="{Binding SelectedCard.Color, Converter={StaticResource ColorToApprovedColorConverter}}">
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Tapped="Color_Tapped" BorderThickness="1" BorderBrush="White" Height="40" Width="40" Margin="1">
+                                    <Rectangle Height="40" Width="40"
+                                                               Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" />
+                                </Border>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
                 </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Label="Edit Deck" Icon="Edit" Click="Button_EditDeck_Click" />
+            <AppBarButton x:Name="AppBarButton_EditMode" Label="Edit Deck" Icon="Edit" Click="Button_EditDeck_Click" />
+            <AppBarButton x:Name="AppBarButton_DeleteCard" Visibility="Collapsed" Label="Delete Card" Icon="Delete" Click="Button_DeleteCard_Click" />
+            <AppBarButton x:Name="AppBarButton_AddCard" Visibility="Collapsed" Label="Add Card" Icon="Add" Click="Button_AddCard_Click" />
         </CommandBar>
     </Page.BottomAppBar>
     

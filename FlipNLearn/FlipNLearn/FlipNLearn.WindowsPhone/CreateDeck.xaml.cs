@@ -114,7 +114,6 @@ namespace FlipNLearn
         private void Button_AddCard_Click(object sender, RoutedEventArgs e)
         {
             if (TextBox_FrontText.Text != ""
-                && TextBox_BackText.Text != ""
                 && GridViewColors.SelectedItem != null)
             {
                 ViewModel.instance.AddCard();

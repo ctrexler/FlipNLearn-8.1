@@ -1,0 +1,68 @@
+﻿<Page
+    x:Class="FlipNLearn.MultiCardCreate"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FlipNLearn"
+    xmlns:converter="using:FlipNLearn.ValueConverters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{StaticResource ViewModel}">
+
+    <Page.Resources>
+        <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+    </Page.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="MY APPLICATION" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="page title" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+        </StackPanel>
+
+        <!--TODO: Content should be placed within the following grid-->
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="0,9.833,0,0">
+            <ListView ItemsSource="{Binding SelectedDeck.Cards}" Margin="10,0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical">
+                                <Grid Margin="10" Height="95" Width="150">
+                                    <Rectangle StrokeThickness="1" Stroke="White" Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" Height="95" Width="150" />
+                                    <TextBlock Text="{Binding FrontText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="13.5" TextWrapping="WrapWholeWords" />
+                                </Grid>
+                                <TextBox Width="150" Text="{Binding FrontText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <Grid Margin="10" Height="95" Width="150">
+                                    <Rectangle StrokeThickness="1" Stroke="White" Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" Height="95" Width="150" />
+                                    <TextBlock Text="{Binding BackText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="13.5" TextWrapping="WrapWholeWords" Margin="10,0,0,0"/>
+                                </Grid>
+                                <TextBox Width="150" Text="{Binding BackText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Name="AddCard" Visibility="Visible" Icon="Add" Label="Add Card" Click="Button_AddCard_Click"/>
+            <AppBarButton x:Name="SaveCards" Visibility="Visible" Icon="Save" Label="Save" Click="Button_SaveCards_Click"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>

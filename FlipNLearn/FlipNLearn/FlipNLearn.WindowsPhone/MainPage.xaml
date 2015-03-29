@@ -31,10 +31,6 @@
         <!-- Sets Column -->
         <!--<Grid Grid.Column="0" Background="#0C6398">-->
         <Grid Grid.Column="0" Background="#FF1D1D1D">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="0*"/>
-            </Grid.ColumnDefinitions>
             <ListView x:Name="ListViewSets" ItemsSource="{Binding Sets}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -43,29 +39,31 @@
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel HorizontalAlignment="Stretch"
-                                    Background="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
-                                    Tapped="Set_Tapped"
-                                    Margin="0,2,0,0">
-                            
-                            <!-- Flyout Menu -->
-                            <i:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="Holding">
-                                    <local:OpenMenuFlyoutAction />
-                                </core:EventTriggerBehavior>
-                            </i:Interaction.Behaviors>
-                            <FlyoutBase.AttachedFlyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem  x:Name="Context_Set_Delete" Text="✗ Delete Set" Click="Context_DeleteSet_Click" />
-                                </MenuFlyout>
-                            </FlyoutBase.AttachedFlyout>
-                            <!-- End Flyout Menu -->
-                        
+                        <StackPanel x:Name="SelectionMarker" Orientation="Horizontal" Width="115" Background="#FF1D1D1D" Margin="0,2,0,0">
+                            <StackPanel Width="112"
+                                        Margin="0,0,0,0"
+                                        Background="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
+                                        Tapped="Set_Tapped">
+                                
+                                <!-- Flyout Menu -->
+                                <i:Interaction.Behaviors>
+                                    <core:EventTriggerBehavior EventName="Holding">
+                                        <local:OpenMenuFlyoutAction />
+                                    </core:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                                <FlyoutBase.AttachedFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem  x:Name="Context_Set_Delete" Text="✗ Delete Set" Click="Context_DeleteSet_Click" />
+                                    </MenuFlyout>
+                                </FlyoutBase.AttachedFlyout>
+                                <!-- End Flyout Menu -->
 
-                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" FontFamily="Segoe WP" FontSize="17"/>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3,0,5">
-                                <TextBlock Text="{Binding Decks.Count}" FontFamily="Segoe WP" FontWeight="Light" FontSize="12" />
-                                <TextBlock Text="Decks" Margin="5,0,0,0" FontFamily="Segoe WP" FontWeight="Light" FontSize="12"/>
+
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" FontFamily="Segoe WP" FontSize="17"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3,0,5">
+                                    <TextBlock Text="{Binding Decks.Count}" FontFamily="Segoe WP" FontWeight="Light" FontSize="12" />
+                                    <TextBlock Text="Decks" Margin="5,0,0,0" FontFamily="Segoe WP" FontWeight="Light" FontSize="12"/>
+                                </StackPanel>
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
@@ -95,21 +93,19 @@
                                 </i:Interaction.Behaviors>
                                 <FlyoutBase.AttachedFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem x:Name="Context_Deck_Edit" Text="✎ Edit Deck" Click="Context_EditDeck_Click" />
-                                        <MenuFlyoutItem Text="" />
                                         <MenuFlyoutItem x:Name="Context_Deck_Delete" Text="✗ Delete Deck" Click="Context_DeleteDeck_Click" />
                                     </MenuFlyout>
                                 </FlyoutBase.AttachedFlyout>
                                 <!-- End Flyout Menu -->
 
-                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Margin="20,0,0,0" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="20"/>
-                                <Grid Height="164" Width="260">
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Margin="10,0,0,0" FontFamily="Global User Interface" FontWeight="SemiBold" FontSize="20"/>
+                                <Grid Height="156" Width="252">
                                     <Rectangle Fill="{Binding Cards[0].Color, Converter={StaticResource ColorToBrushConverter}, FallbackValue=Black}"
                                            Stroke="{Binding Cards[0].Color, Converter={StaticResource CheckCardListNullConverter}, ConverterParameter='Stroke', FallbackValue='#7f7f7f'}"  
                                            StrokeDashArray="{Binding Cards.Count, Converter={StaticResource CheckCardListNullConverter}, ConverterParameter='Dash', FallbackValue=5}"
                                            StrokeThickness="1"
-                                           Height="164" Width="260" />
-                                    <TextBlock Text="{Binding Cards[0].FrontText, FallbackValue='&lt; no cards &gt;'}" HorizontalAlignment="Center"  VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="24" TextWrapping="WrapWholeWords" />
+                                           Height="156" Width="252" />
+                                    <TextBlock Text="{Binding Cards[0].FrontText, FallbackValue='&lt; no cards &gt;'}" TextAlignment="Center" HorizontalAlignment="Center"  VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="24" TextWrapping="WrapWholeWords" />
                                 </Grid>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
                                     <TextBlock Text="{Binding Cards.Count, FallbackValue='0'}" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="12"/>
@@ -125,7 +121,7 @@
     <Page.BottomAppBar>
         <CommandBar>
             <!-- Main Menu -->
-            <AppBarButton x:Name="Button_AddSet" Icon="DockLeft" Label="Add Set" >
+            <AppBarButton x:Name="Button_AddSet" Icon="DockLeft" Label="Add Set" Click="Button_AddSet_Click" >
                 <AppBarButton.Flyout>
                     <Flyout x:Name="Flyout_AddSet">
                         <Grid x:Name="GridAddSet" Height="Auto">
@@ -146,8 +142,8 @@
                                     <GridView x:Name="GridViewColors" ItemsSource="{Binding ApprovedColors}" Margin="0,0,0,30">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>
-                                                <Border Tapped="Color_Tapped" BorderThickness="0" BorderBrush="White" Height="50" Width="50" Margin="1">
-                                                    <Rectangle Height="50" Width="50"
+                                                <Border Tapped="Color_Tapped" BorderThickness="0" BorderBrush="White" Height="40" Width="40" Margin="1">
+                                                    <Rectangle Height="40" Width="40"
                                                                Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" />
                                                 </Border>
                                             </DataTemplate>
@@ -163,7 +159,7 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton x:Name="Button_AddDeck" Icon="Add" Label="Create Deck">
+            <AppBarButton x:Name="Button_AddDeck" Icon="Add" Label="Create Deck" Click="Button_AddDeck_Click">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="Flyout_CreateDeck">
                         <Grid Height="Auto">
@@ -191,10 +187,9 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-
-            <!-- AddSet -->
-            <AppBarButton x:Name="Button_SaveSet" Visibility="Collapsed" Icon="Accept" Label="Save" Click="Button_SaveSet_Click"/>
-            <AppBarButton x:Name="Button_CancelSet" Visibility="Collapsed" Icon="Cancel" Label="Cancel" Click="Button_CancelSet_Click"/>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="about FlipNLearn..." Click="Button_About_Click" />
+            </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

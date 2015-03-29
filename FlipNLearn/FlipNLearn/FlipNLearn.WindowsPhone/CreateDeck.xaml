@@ -93,10 +93,8 @@
                             <!--TODO: Content should be placed within the following grid-->
                             <Grid Grid.Row="1" Margin="19,9.5,19,0">
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="front" FontFamily="Segoe WP" FontSize="20"/>
-                                    <TextBox x:Name="TextBox_FrontText" Text="{Binding AddCardFrontText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" Margin="0,0,0,20" Width="200" />
-                                    <TextBlock Text="back" FontFamily="Segoe WP" FontSize="20"/>
-                                    <TextBox x:Name="TextBox_BackText" Text="{Binding AddCardBackText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" Margin="0,0,0,20" Width="200" />
+                                    <TextBox x:Name="TextBox_FrontText" PlaceholderText="front of card" Text="{Binding AddCardFrontText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" Margin="0,0,0,20" Width="200" />
+                                    <TextBox x:Name="TextBox_BackText" PlaceholderText="back of card" Text="{Binding AddCardBackText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" Margin="0,0,0,20" Width="200" />
                                     <GridView x:Name="GridViewColors" ItemsSource="{Binding ApprovedColors}" Margin="0,0,0,30">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="7b8c7303-3a78-407b-8667-21f82833713d" Publisher="CN=neochronomo" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="7b8c7303-3a78-407b-8667-21f82833713d" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="59292CorbinTrexler.FlipNLearn" Publisher="CN=2DE7F055-EF30-44D2-9B27-6736FE699BFD" Version="1.1.0.2" />
+  <mp:PhoneIdentity PhoneProductId="6ad4d0f2-4b0b-41de-97d5-6245b5615d9c" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>FlipNLearn.WindowsPhone</DisplayName>
-    <PublisherDisplayName>neochronomo</PublisherDisplayName>
+    <DisplayName>FlipNLearn</DisplayName>
+    <PublisherDisplayName>Corbin Trexler</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>
@@ -17,7 +17,10 @@
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="FlipNLearn.WindowsPhone.App">
       <m3:VisualElements DisplayName="FlipNLearn" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="A smooth, fast, clean flashcard application for Windows Phone!" ForegroundText="light" BackgroundColor="transparent">
-        <m3:DefaultTile Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\Square71x71Logo.png">
+        <m3:DefaultTile Square71x71Logo="Assets\Square71x71Logo.png">
+          <m3:ShowNameOnTiles>
+            <m3:ShowOn Tile="square150x150Logo" />
+          </m3:ShowNameOnTiles>
         </m3:DefaultTile>
         <m3:SplashScreen Image="Assets\SplashScreen.png" />
         <m3:InitialRotationPreference>

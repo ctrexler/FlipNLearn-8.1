@@ -1,0 +1,52 @@
+﻿<Page
+    x:Class="FlipNLearn.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FlipNLearn"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="about" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}" FontSize="72"/>
+        </StackPanel>
+
+        <!--TODO: Content should be placed within the following grid-->
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top" Margin="0,0,0,25">
+                    <Grid Background="{StaticResource PhoneAccentBrush}">
+                        <Image Source="Assets/Square71x71Logo.png" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Height="100" />
+                    </Grid>
+                    <StackPanel VerticalAlignment="Top" Margin="5,-5,0,0">
+                        <TextBlock Text="FlipNLearn" FontSize="40" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBlock Text="Build 1.0.0" FontSize="20" FontWeight="Normal" Foreground="#FF8D8D8D"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="-5,0,0,0">
+                    <HyperlinkButton Content="Rate and Review" Height="68" FontFamily="Segoe WP" Click="HyperlinkButton_Click" />
+                    <HyperlinkButton Content="Twitter" Height="68" FontFamily="Segoe WP" NavigateUri="https://twitter.com/FlipNLearnApp" />
+                    <HyperlinkButton Content="Email Feedback/Support" Height="68" FontFamily="Segoe WP" Click="LinkEmail_Click" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                <TextBlock Text="Copyright © 2015 Corbin Trexler" FontSize="20" FontFamily="Segoe WP" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
