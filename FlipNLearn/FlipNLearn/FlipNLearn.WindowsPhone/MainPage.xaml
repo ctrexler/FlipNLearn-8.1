@@ -16,7 +16,7 @@
     <d:Page.DataContext>
         <sample:SampleDataModel />
     </d:Page.DataContext>
-    
+
     <Page.Resources>
         <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
         <converter:CheckCardListNullConverter x:Key="CheckCardListNullConverter" />
@@ -44,7 +44,7 @@
                                         Margin="0,0,0,0"
                                         Background="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
                                         Tapped="Set_Tapped">
-                                
+
                                 <!-- Flyout Menu -->
                                 <i:Interaction.Behaviors>
                                     <core:EventTriggerBehavior EventName="Holding">
@@ -99,15 +99,42 @@
                                 <!-- End Flyout Menu -->
 
                                 <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Margin="10,0,0,0" FontFamily="Global User Interface" FontWeight="SemiBold" FontSize="20"/>
-                                <Grid Height="156" Width="252">
+                                <Grid Height="155" Width="241">
+                                    <Rectangle Fill="{Binding Cards[2].Color, Converter={StaticResource ColorToBrushConverter}, FallbackValue=Black}"
+                                           Stroke="{Binding Cards[2].Color, Converter={StaticResource CheckCardListNullConverter}, ConverterParameter='Stroke', FallbackValue=Black}"  
+                                           StrokeDashArray="{Binding Cards.Count, Converter={StaticResource CheckCardListNullConverter}, ConverterParameter='Dash3', FallbackValue=5}"
+                                           StrokeThickness="1"
+                                           Height="145" Width="231"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Top"/>
+                                    <Rectangle Fill="{Binding Cards[1].Color, Converter={StaticResource ColorToBrushConverter}, FallbackValue=Black}"
+                                           Stroke="{Binding Cards[1].Color, Converter={StaticResource CheckCardListNullConverter}, ConverterParameter='Stroke', FallbackValue=Black}"  
+                                           StrokeDashArray="{Binding Cards.Count, Converter={StaticResource CheckCardListNullConverter}, ConverterParameter='Dash2', FallbackValue=5}"
+                                           StrokeThickness="1"
+                                           Height="145" Width="231"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
                                     <Rectangle Fill="{Binding Cards[0].Color, Converter={StaticResource ColorToBrushConverter}, FallbackValue=Black}"
                                            Stroke="{Binding Cards[0].Color, Converter={StaticResource CheckCardListNullConverter}, ConverterParameter='Stroke', FallbackValue='#7f7f7f'}"  
                                            StrokeDashArray="{Binding Cards.Count, Converter={StaticResource CheckCardListNullConverter}, ConverterParameter='Dash', FallbackValue=5}"
                                            StrokeThickness="1"
-                                           Height="156" Width="252" />
-                                    <TextBlock Text="{Binding Cards[0].FrontText, FallbackValue='&lt; no cards &gt;'}" TextAlignment="Center" HorizontalAlignment="Center"  VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="24" TextWrapping="WrapWholeWords" />
+                                           Height="145" Width="231"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Bottom"/>
+                                    <StackPanel Height="145" Width="231" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                                        <Grid Height="145">
+                                            <TextBlock Text="{Binding Cards[0].FrontText, FallbackValue='&lt; no cards &gt;'}"
+                                               TextAlignment="Center"
+                                               HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"
+                                               FontFamily="Segoe WP"
+                                               FontWeight="Light"
+                                               FontSize="19"
+                                               TextWrapping="WrapWholeWords" />
+                                        </Grid>
+                                    </StackPanel>
                                 </Grid>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,12,0">
                                     <TextBlock Text="{Binding Cards.Count, FallbackValue='0'}" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="12"/>
                                     <TextBlock Text="Cards" Margin="5,0,0,0" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="12"/>
                                 </StackPanel>
@@ -119,15 +146,15 @@
         </Grid>
     </Grid>
     <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar x:Name="CommandBar">
             <!-- Main Menu -->
             <AppBarButton x:Name="Button_AddSet" Icon="DockLeft" Label="Add Set" Click="Button_AddSet_Click" >
                 <AppBarButton.Flyout>
                     <Flyout x:Name="Flyout_AddSet">
-                        <Grid x:Name="GridAddSet" Height="Auto">
+                        <Grid x:Name="GridAddSet" Height="1000">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
                             <!-- Title Panel -->
@@ -138,12 +165,12 @@
                             <!--TODO: Content should be placed within the following grid-->
                             <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
                                 <StackPanel Orientation="Vertical">
-                                    <TextBox x:Name="TextBox_SetName" HorizontalAlignment="Left" Margin="0,0,0,20" PlaceholderText="Set Name" Text="{Binding AddSetName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="130"/>
-                                    <GridView x:Name="GridViewColors" ItemsSource="{Binding ApprovedColors}" Margin="0,0,0,30">
+                                    <TextBox x:Name="TextBox_SetName" HorizontalAlignment="Center" Margin="11,0,10,20" PlaceholderText="Set Name" Text="{Binding AddSetName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="325"/>
+                                    <GridView x:Name="GridViewColors" ItemsSource="{Binding ApprovedColors}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,0,20">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>
-                                                <Border Tapped="Color_Tapped" BorderThickness="0" BorderBrush="White" Height="40" Width="40" Margin="1">
-                                                    <Rectangle Height="40" Width="40"
+                                                <Border Tapped="Color_Tapped" BorderThickness="1" BorderBrush="White" Height="42" Width="42" Margin="2">
+                                                    <Rectangle Height="50" Width="50"
                                                                Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" />
                                                 </Border>
                                             </DataTemplate>
@@ -162,7 +189,7 @@
             <AppBarButton x:Name="Button_AddDeck" Icon="Add" Label="Create Deck" Click="Button_AddDeck_Click">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="Flyout_CreateDeck">
-                        <Grid Height="Auto">
+                        <Grid Height="1000">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
@@ -176,7 +203,7 @@
                             <!--TODO: Content should be placed within the following grid-->
                             <Grid Grid.Row="1" Margin="19,9.5,19,0">
                                 <StackPanel Orientation="Vertical">
-                                    <TextBox x:Name="TextBox_DeckName" HorizontalAlignment="Left" Margin="0,0,0,20" PlaceholderText="Deck Name" Text="{Binding AddDeckName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="250"/>
+                                    <TextBox x:Name="TextBox_DeckName" HorizontalAlignment="Center" Margin="11,0,10,30" PlaceholderText="Deck Name" Text="{Binding AddDeckName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="325"/>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <Button Content="create" Width="150" Click="Button_CreateDeck_Click" />
                                         <Button Content="cancel" Width="150" Click="Button_CancelDeck_Click" Margin="25,0,0,0" />

@@ -13,10 +13,32 @@ namespace FlipNLearn.ValueConverters
             if ((string)parameter == "Stroke")
                 return "White";
             else if ((string)parameter == "Dash") {
-                if ((int)value == 0) {
+                if ((int)value < 1) {
                     return "5";
                 }
                 else {
+                    return "2000";
+                }
+            }
+            else if ((string)parameter == "Dash2")
+            {
+                if ((int)value < 2)
+                {
+                    return "5";
+                }
+                else
+                {
+                    return "2000";
+                }
+            }
+            else if ((string)parameter == "Dash3")
+            {
+                if ((int)value < 3)
+                {
+                    return "5";
+                }
+                else
+                {
                     return "2000";
                 }
             }

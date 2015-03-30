@@ -52,6 +52,7 @@ namespace FlipNLearn
 
             Button_AddSet.Visibility = Visibility.Visible;
             Button_AddDeck.Visibility = Visibility.Visible;
+            CommandBar.Visibility = Visibility.Visible;
         }
 
         StackPanel LastSelectedSP = new StackPanel();
@@ -76,7 +77,7 @@ namespace FlipNLearn
             else
             {
                 ViewModel.instance.SelectedDeck = (Deck)ListViewDecks.SelectedItem;
-                ViewModel.instance.SelectedDeck.Cards.Add(new Card());
+                ViewModel.instance.SelectedDeck.Cards.Add(new Card() { Color = Colors.Black });
                 ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.LastOrDefault();
                 ViewModel.instance.IsCreatingDeck = true;
                 Frame.Navigate(typeof(ViewDeck));
@@ -92,7 +93,9 @@ namespace FlipNLearn
                     {
                         Name = TextBox_DeckName.Text,
                         Cards = new ObservableCollection<Card>() {
-                            new Card()
+                            new Card() {
+                                Color = Colors.Black
+                            }
                         }
                     }
                 );
@@ -118,6 +121,7 @@ namespace FlipNLearn
 
                 Button_AddSet.Visibility = Visibility.Visible;
                 Button_AddDeck.Visibility = Visibility.Visible;
+                CommandBar.Visibility = Visibility.Visible;
             }
         }
 
@@ -128,6 +132,7 @@ namespace FlipNLearn
 
             Button_AddSet.Visibility = Visibility.Visible;
             Button_AddDeck.Visibility = Visibility.Visible;
+            CommandBar.Visibility = Visibility.Visible;
         }
         
         Border LastSelected = new Border();
@@ -146,6 +151,7 @@ namespace FlipNLearn
 
             Button_AddSet.Visibility = Visibility.Visible;
             Button_AddDeck.Visibility = Visibility.Visible;
+            CommandBar.Visibility = Visibility.Visible;
         }
 
         private async void Context_DeleteSet_Click(object sender, RoutedEventArgs e)
@@ -193,12 +199,16 @@ namespace FlipNLearn
         {
             Button_AddSet.Visibility = Visibility.Collapsed;
             Button_AddDeck.Visibility = Visibility.Collapsed;
+
+            CommandBar.Visibility = Visibility.Collapsed;
         }
 
         private void Button_AddDeck_Click(object sender, RoutedEventArgs e)
         {
             Button_AddSet.Visibility = Visibility.Collapsed;
             Button_AddDeck.Visibility = Visibility.Collapsed;
+
+            CommandBar.Visibility = Visibility.Collapsed;
         }
     }
 }
