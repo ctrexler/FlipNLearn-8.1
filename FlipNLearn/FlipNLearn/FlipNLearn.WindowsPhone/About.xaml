@@ -35,7 +35,7 @@
                     </Grid>
                     <StackPanel VerticalAlignment="Top" Margin="5,-5,0,0">
                         <TextBlock Text="FlipNLearn" FontSize="40" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                        <TextBlock Text="Build v1.1.0.3" FontSize="20" FontWeight="Normal" Foreground="#FF8D8D8D"/>
+                        <TextBlock Text="Build v1.1.0.4" FontSize="20" FontWeight="Normal" Foreground="#FF8D8D8D"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="-5,0,0,0">

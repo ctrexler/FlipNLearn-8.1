@@ -152,7 +152,7 @@ namespace FlipNLearn.Models
                 textFile = await localFolder.CreateFileAsync(jsonFileName);
                 ViewModel.instance.Sets.Add(new Set()
                 {
-                    Name = "Hello World!",
+                    Name = "Tutorial",
                     Color = Colors.SteelBlue,
                     Decks = new ObservableCollection<Deck>()
                 {
@@ -164,19 +164,19 @@ namespace FlipNLearn.Models
                             new Card()
                             {
                                 FrontText = "Tap here to get started!",
-                                BackText = "Swipe left or right to see another card",
+                                BackText = "Swipe your finger left to see the next card",
                                 Color = Colors.OrangeRed
                             },
                             new Card()
                             {
-                                FrontText = "Click the pencil below to edit this deck, then tap here to flip the card over.",
-                                BackText = "Notice the edit box changes to match the side being viewed! Now, swipe left.",
+                                FrontText = "Click the pencil below to enter Edit Mode, then tap here to flip the card over.",
+                                BackText = "Notice the text in edit box changes to match the side of the card being viewed!\nSwipe left again.",
                                 Color = Colors.DarkOrange
                             },
                             new Card()
                             {
-                                FrontText = "The text also changes to match the card! Please flip.",
-                                BackText = "Type in the box below, and this text will change immediately!\n(Then swipe left)",
+                                FrontText = "The text also changes to match the card being viewed! Please flip.",
+                                BackText = "Type in the box below, and see the changes here immediately!\n(Then swipe left)",
                                 Color = Colors.ForestGreen
                             },
                             new Card()
@@ -198,15 +198,38 @@ namespace FlipNLearn.Models
                         Cards = new ObservableCollection<Card>() {
                             new Card() {
                                 FrontText = "...to delete it!",
-                                BackText = "Nothing to see here :o"
+                                BackText = "Nothing to see here!",
+                                Color = Colors.Black
                             }
                         }
                     },
                     new Deck() {
-                        Name = "Use the buttons below...",
+                        Name = "Scroll down to...",
                         Cards = new ObservableCollection<Card>() {
                             new Card() {
-                                FrontText = "...to adds sets and create decks!",
+                                FrontText = "...see more decks!",
+                                BackText = "Curiousity killed the cat, you know.",
+                                Color = Colors.Black
+                            }
+                        }
+                    },
+                    new Deck() {
+                        Name = "Press and hold...",
+                        Cards = new ObservableCollection<Card>() {
+                            new Card() {
+                                FrontText = "..on a set on the left to delete it!",
+                                BackText = "What did you expect to find back here?!",
+                                Color = Colors.Black
+                            }
+                        }
+                    },
+                    new Deck() {
+                        Name = "Now...",
+                        Cards = new ObservableCollection<Card>() {
+                            new Card() {
+                                FrontText = "...use the buttons on the bottom to begin creating your own! :)",
+                                BackText = "Keep being awesome :)",
+                                Color = Colors.Black
                             }
                         }
                     }
@@ -214,9 +237,31 @@ namespace FlipNLearn.Models
                 });
                 ViewModel.instance.Sets.Add(new Set()
                 {
-                    Name = "Hold here!",
+                    Name = "Example Set",
                     Color = Colors.DeepPink,
                     Decks = new ObservableCollection<Deck>()
+                    {
+                        new Deck() {
+                            Name = "Example Deck Title",
+                            Cards = new ObservableCollection<Card>() {
+                                new Card() {
+                                    FrontText = "Example Term",
+                                    BackText = "Example Definition",
+                                    Color = Colors.SteelBlue
+                                },
+                                new Card() {
+                                    FrontText = "Example Term 2",
+                                    BackText = "Example Definition2",
+                                    Color = Colors.SteelBlue
+                                },
+                                new Card() {
+                                    FrontText = "Example Term 3",
+                                    BackText = "Example Definition 3",
+                                    Color = Colors.SteelBlue
+                                }
+                            },
+                        }
+                    }
                 });
                 Serialize();
             }

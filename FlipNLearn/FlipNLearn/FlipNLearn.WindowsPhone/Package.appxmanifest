@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="59292CorbinTrexler.FlipNLearn" Publisher="CN=2DE7F055-EF30-44D2-9B27-6736FE699BFD" Version="1.1.0.2" />
+  <Identity Name="59292CorbinTrexler.FlipNLearn" Publisher="CN=2DE7F055-EF30-44D2-9B27-6736FE699BFD" Version="1.1.0.3" />
   <mp:PhoneIdentity PhoneProductId="6ad4d0f2-4b0b-41de-97d5-6245b5615d9c" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>FlipNLearn</DisplayName>

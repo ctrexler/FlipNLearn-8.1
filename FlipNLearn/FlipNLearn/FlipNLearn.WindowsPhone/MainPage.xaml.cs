@@ -49,10 +49,6 @@ namespace FlipNLearn
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
-
-            Button_AddSet.Visibility = Visibility.Visible;
-            Button_AddDeck.Visibility = Visibility.Visible;
-            CommandBar.Visibility = Visibility.Visible;
         }
 
         StackPanel LastSelectedSP = new StackPanel();
@@ -118,10 +114,6 @@ namespace FlipNLearn
                 Flyout_AddSet.Hide();
 
                 TextBox_SetName.Text = "";
-
-                Button_AddSet.Visibility = Visibility.Visible;
-                Button_AddDeck.Visibility = Visibility.Visible;
-                CommandBar.Visibility = Visibility.Visible;
             }
         }
 
@@ -129,10 +121,6 @@ namespace FlipNLearn
         {
             Flyout_AddSet.Hide();
             TextBox_SetName.Text = "";
-
-            Button_AddSet.Visibility = Visibility.Visible;
-            Button_AddDeck.Visibility = Visibility.Visible;
-            CommandBar.Visibility = Visibility.Visible;
         }
         
         Border LastSelected = new Border();
@@ -148,10 +136,6 @@ namespace FlipNLearn
         {
             Flyout_CreateDeck.Hide();
             TextBox_DeckName.Text = "";
-
-            Button_AddSet.Visibility = Visibility.Visible;
-            Button_AddDeck.Visibility = Visibility.Visible;
-            CommandBar.Visibility = Visibility.Visible;
         }
 
         private async void Context_DeleteSet_Click(object sender, RoutedEventArgs e)
@@ -197,18 +181,21 @@ namespace FlipNLearn
 
         private void Button_AddSet_Click(object sender, RoutedEventArgs e)
         {
-            Button_AddSet.Visibility = Visibility.Collapsed;
-            Button_AddDeck.Visibility = Visibility.Collapsed;
-
             CommandBar.Visibility = Visibility.Collapsed;
         }
 
         private void Button_AddDeck_Click(object sender, RoutedEventArgs e)
         {
-            Button_AddSet.Visibility = Visibility.Collapsed;
-            Button_AddDeck.Visibility = Visibility.Collapsed;
-
             CommandBar.Visibility = Visibility.Collapsed;
+        }
+
+        private void Flyout_Opening(object sender, object e)
+        {
+            CommandBar.Visibility = Visibility.Collapsed;
+        }
+        private void Flyout_Closed(object sender, object e)
+        {
+            CommandBar.Visibility = Visibility.Visible;
         }
     }
 }

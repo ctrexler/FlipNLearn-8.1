@@ -150,8 +150,8 @@
             <!-- Main Menu -->
             <AppBarButton x:Name="Button_AddSet" Icon="DockLeft" Label="Add Set" Click="Button_AddSet_Click" >
                 <AppBarButton.Flyout>
-                    <Flyout x:Name="Flyout_AddSet">
-                        <Grid x:Name="GridAddSet" Height="1000">
+                    <Flyout x:Name="Flyout_AddSet" Closed="Flyout_Closed" Opening="Flyout_Opening">
+                        <Grid x:Name="GridAddSet" Height="Auto">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -188,8 +188,8 @@
             </AppBarButton>
             <AppBarButton x:Name="Button_AddDeck" Icon="Add" Label="Create Deck" Click="Button_AddDeck_Click">
                 <AppBarButton.Flyout>
-                    <Flyout x:Name="Flyout_CreateDeck">
-                        <Grid Height="1000">
+                    <Flyout x:Name="Flyout_CreateDeck" Opening="Flyout_Opening" Closed="Flyout_Closed">
+                        <Grid Height="Auto">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
