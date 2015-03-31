@@ -129,7 +129,7 @@
                                                VerticalAlignment="Center"
                                                FontFamily="Segoe WP"
                                                FontWeight="Light"
-                                               FontSize="19"
+                                               FontSize="21"
                                                TextWrapping="WrapWholeWords" />
                                         </Grid>
                                     </StackPanel>

@@ -100,6 +100,11 @@ namespace FlipNLearn
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.navigationHelper.OnNavigatedTo(e);
+
+            TextBox_BuildNumber.Text = "Build v" + Package.Current.Id.Version.Major.ToString()
+                                        + "." + Package.Current.Id.Version.Minor.ToString()
+                                        + "." + Package.Current.Id.Version.Build.ToString()
+                                        + "." + Package.Current.Id.Version.Revision.ToString();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
