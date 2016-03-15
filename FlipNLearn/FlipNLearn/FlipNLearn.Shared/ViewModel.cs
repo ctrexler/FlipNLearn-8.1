@@ -61,6 +61,28 @@ namespace FlipNLearn
             }
         }
 
+        // Deck Currently Being Viewed
+        public ObservableCollection<Card> _currentDeck { get; set; }
+        public ObservableCollection<Card> currentDeck
+        {
+            get
+            {
+                if (_currentDeck == null)
+                {
+                    _currentDeck = SelectedDeck.Cards;
+                }
+                return _currentDeck;
+            }
+            set
+            {
+                if (value != this._currentDeck)
+                {
+                    this._currentDeck = value;
+                    NotifyPropertyChanged("currentDeck");
+                }
+            }
+        }
+
         // Selected Deck
         private Deck _SelectedDeck = null;
         public Deck SelectedDeck
@@ -173,6 +195,7 @@ namespace FlipNLearn
             // Hard-coded Data
             IsCreatingDeck = false;
             Sets = new ObservableCollection<Set>();
+            currentDeck = new ObservableCollection<Card>();
 
             ViewModel.instance = this;
 

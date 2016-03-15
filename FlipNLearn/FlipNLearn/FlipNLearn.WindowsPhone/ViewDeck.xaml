@@ -16,60 +16,9 @@
     </d:Page.DataContext>
 
     <Page.Resources>
-
         <converter:ColorToApprovedColorConverter x:Key="ColorToApprovedColorConverter" />
         <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
         <converter:SelectedCardIndexConverter x:Key="SelectedCardIndexConverter" />
-
-        <!-- Flip to Back -->
-        <Storyboard x:Name="FlipToBack" SpeedRatio="5">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" Storyboard.TargetName="cardFront">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="90"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="90"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" Storyboard.TargetName="cardBack">
-                <EasingDoubleKeyFrame KeyTime="0" Value="90"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="90"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="180"/>
-            </DoubleAnimationUsingKeyFrames>
-            <PointAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="frontText">
-                <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5"/>
-            </PointAnimationUsingKeyFrames>
-            <DoubleAnimation Duration="0:0:1" To="-1" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="frontText" d:IsOptimized="True"/>
-            <PointAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="backText">
-                <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5"/>
-            </PointAnimationUsingKeyFrames>
-            <DoubleAnimation Duration="0:0:1" To="-1" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="backText" d:IsOptimized="True"/>
-        </Storyboard>
-        
-        <!-- Flip to Front -->
-        <Storyboard x:Name="FlipToFront" SpeedRatio="5">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" Storyboard.TargetName="cardFront">
-                <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="90"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:1" Value="90"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:1.5" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" Storyboard.TargetName="cardBack">
-                <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="180"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:1" Value="90"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:1.5" Value="90"/>
-            </DoubleAnimationUsingKeyFrames>
-            <PointAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="frontText">
-                <SplinePointKeyFrame KeyTime="0:0:1.5" Value="0.4,0.5"/>
-            </PointAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="frontText">
-                <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="-1"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:1.5" Value="1"/>
-            </DoubleAnimationUsingKeyFrames>
-            <PointAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="backText">
-                <SplinePointKeyFrame KeyTime="0:0:1.5" Value="0.5,0.5"/>
-            </PointAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="backText">
-                <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="-1"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
     </Page.Resources>
 
     <Grid x:Name="LayoutRoot">
@@ -86,60 +35,27 @@
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
-        <StackPanel Grid.Row="0" Margin="19,0,0,0" ManipulationStarted="swipingSurface_ManipulationStarted" ManipulationCompleted="swipingSurface_ManipulationCompleted">
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
             <TextBlock Text="{Binding SelectedSet.Name}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
             <TextBlock Text="{Binding SelectedDeck.Name}" Margin="0,-6.5,0,16.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" Margin="0,0,0,0">
-
             <StackPanel>
                 <StackPanel x:Name="StackPanel_CardArea" Orientation="Vertical" Margin="0,0,0,0">
-                    <!-- Card Front -->
-                    <Grid Margin="0,0,0,0" x:Name="swipingSurface">
-                        <Border x:Name="cardFront" BorderBrush="White" Height="250" Width="Auto" VerticalAlignment="Top" Margin="0,30,0,0" BorderThickness="1,1,1,1">
-                            <Border.RenderTransform>
-                                <CompositeTransform/>
-                            </Border.RenderTransform>
-                            <Border.Projection>
-                                <PlaneProjection RotationX="0"/>
-                            </Border.Projection>
-                            <Grid Height="Auto" Width="Auto" Background="{Binding SelectedCard.Color, Converter={StaticResource ColorToBrushConverter}}" Tapped="Card_Tapped">
-                                <!--<ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">-->
-                                <TextBlock x:Name="frontText" Text="{Binding SelectedCard.FrontText}" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="36"  TextWrapping="WrapWholeWords" LineHeight="45" LineStackingStrategy="BlockLineHeight">
-                                    <TextBlock.RenderTransform>
-                                        <CompositeTransform/>
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
-                                <!--</ScrollViewer>-->
-                            </Grid>
-                        </Border>
-
-                        <!-- Card Back -->
-                        <Border x:Name="cardBack" Visibility="Collapsed" BorderBrush="White" Height="250" Width="Auto" VerticalAlignment="Top" Margin="0,30,0,0" BorderThickness="1,1,1,1">
-                            <Border.RenderTransform>
-                                <CompositeTransform/>
-                            </Border.RenderTransform>
-                            <Border.Projection>
-                                <PlaneProjection RotationX="-90"/>
-                            </Border.Projection>
-                            <Grid Height="Auto" Width="Auto" Background="{Binding SelectedCard.Color, Converter={StaticResource ColorToBrushConverter}}" Tapped="Card_Tapped">
-                                <ScrollViewer>
-                                    <TextBlock x:Name="backText" Text="{Binding SelectedCard.BackText}" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe WP" FontWeight="Light" FontSize="36" TextWrapping="WrapWholeWords" LineHeight="45" LineStackingStrategy="BlockLineHeight">
-                                        <TextBlock.RenderTransform>
-                                            <CompositeTransform/>
-                                        </TextBlock.RenderTransform>
-                                    </TextBlock>
-                                </ScrollViewer>
-                            </Grid>
-                        </Border>
-                    </Grid>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,10,0">
-                        <TextBlock x:Name="TextBlock_CardNumber" Text="1" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16"/>
-                        <TextBlock Text="/" Margin="5,0,5,0" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16"/>
-                        <TextBlock Text="{Binding SelectedDeck.Cards.Count}" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16"/>
-                    </StackPanel>
+                    <Pivot Name="BleepBloop" ItemsSource="{Binding currentDeck}">
+                        <Pivot.HeaderTemplate>
+                            <DataTemplate>
+                                <ContentControl Content="" />
+                            </DataTemplate>
+                        </Pivot.HeaderTemplate>
+                        <Pivot.ItemTemplate>
+                            <DataTemplate>
+                                <local:CardDeck_UserControl />
+                            </DataTemplate>
+                        </Pivot.ItemTemplate>
+                    </Pivot>
                 </StackPanel>
                 <StackPanel x:Name="StackPanel_EditMode" Visibility="Collapsed">
                     <StackPanel x:Name="TextBox_FrontText">

@@ -37,9 +37,9 @@ namespace FlipNLearn
         {
             this.InitializeComponent();
 
-            swipingSurface.ManipulationMode = ManipulationModes.TranslateX;
-            swipingSurface.ManipulationStarted += swipingSurface_ManipulationStarted;
-            swipingSurface.ManipulationCompleted += swipingSurface_ManipulationCompleted;
+            //swipingSurface.ManipulationMode = ManipulationModes.TranslateX;
+            //swipingSurface.ManipulationStarted += swipingSurface_ManipulationStarted;
+            //swipingSurface.ManipulationCompleted += swipingSurface_ManipulationCompleted;
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
@@ -116,6 +116,13 @@ namespace FlipNLearn
                 AppBarButton_AddCard.Visibility = Visibility.Visible;
                 AppBarButton_DeleteCard.Visibility = Visibility.Visible;
             }
+
+            ViewModel.instance.currentDeck = null;
+            ViewModel.instance.currentDeck = new ObservableCollection<Card>();
+            foreach (Card c in ViewModel.instance.SelectedDeck.Cards)
+            {
+                ViewModel.instance.currentDeck.Add(c);
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -143,78 +150,78 @@ namespace FlipNLearn
             }
         }
 
-        private void swipingSurface_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-        {
-            // Nothing
-        }
+        //private void swipingSurface_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        //{
+        //    // Nothing
+        //}
 
-        int i = 0;
-        async private void swipingSurface_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-        {
-            var velocities = e.Velocities;
+        //int i = 0;
+        //async private void swipingSurface_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        //{
+        //    var velocities = e.Velocities;
 
-            if (velocities.Linear.X < 0)
-            {
-                if (i + 1 > ViewModel.instance.SelectedDeck.Cards.Count -1)
-                    i = 0;
-                else
-                    i++;
-                if (!cardFacedFront)
-                {
-                    cardFront.Visibility = Visibility.Visible;
-                    await FlipToFront.BeginAsync();
-                    cardBack.Visibility = Visibility.Collapsed;
-                    TextBox_FrontText.Visibility = Visibility.Visible;
-                    TextBox_BackText.Visibility = Visibility.Collapsed;
-                    cardFacedFront = true;
-                }
-                ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.ElementAt(i);
-                TextBlock_CardNumber.Text = (i+1).ToString();
-            }
-            else if (velocities.Linear.X > 0)
-            {
-                if (i - 1 < 0)
-                    i = ViewModel.instance.SelectedDeck.Cards.Count - 1;
-                else
-                    i--;
-                if (!cardFacedFront)
-                {
-                    cardFront.Visibility = Visibility.Visible;
-                    await FlipToFront.BeginAsync();
-                    cardBack.Visibility = Visibility.Collapsed;
-                    TextBox_FrontText.Visibility = Visibility.Visible;
-                    TextBox_BackText.Visibility = Visibility.Collapsed;
-                    cardFacedFront = true;
-                }
-                ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.ElementAt(i);
-                TextBlock_CardNumber.Text = (i+1).ToString();
-            }
-        }
+        //    if (velocities.Linear.X < 0)
+        //    {
+        //        if (i + 1 > ViewModel.instance.SelectedDeck.Cards.Count -1)
+        //            i = 0;
+        //        else
+        //            i++;
+        //        if (!cardFacedFront)
+        //        {
+        //            cardFront.Visibility = Visibility.Visible;
+        //            await FlipToFront.BeginAsync();
+        //            cardBack.Visibility = Visibility.Collapsed;
+        //            TextBox_FrontText.Visibility = Visibility.Visible;
+        //            TextBox_BackText.Visibility = Visibility.Collapsed;
+        //            cardFacedFront = true;
+        //        }
+        //        ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.ElementAt(i);
+        //        TextBlock_CardNumber.Text = (i+1).ToString();
+        //    }
+        //    else if (velocities.Linear.X > 0)
+        //    {
+        //        if (i - 1 < 0)
+        //            i = ViewModel.instance.SelectedDeck.Cards.Count - 1;
+        //        else
+        //            i--;
+        //        if (!cardFacedFront)
+        //        {
+        //            cardFront.Visibility = Visibility.Visible;
+        //            await FlipToFront.BeginAsync();
+        //            cardBack.Visibility = Visibility.Collapsed;
+        //            TextBox_FrontText.Visibility = Visibility.Visible;
+        //            TextBox_BackText.Visibility = Visibility.Collapsed;
+        //            cardFacedFront = true;
+        //        }
+        //        ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.ElementAt(i);
+        //        TextBlock_CardNumber.Text = (i+1).ToString();
+        //    }
+        //}
 
-        bool cardFacedFront = true;
-        private async void Card_Tapped(object sender, TappedRoutedEventArgs e)
-        {
+        //bool cardFacedFront = true;
+        //private async void Card_Tapped(object sender, TappedRoutedEventArgs e)
+        //{
 
-            if (cardFacedFront)
-            {
-                FlipToBack.BeginTime = new TimeSpan(0);
-                cardBack.Visibility = Visibility.Visible;
-                await FlipToBack.BeginAsync();
-                cardFront.Visibility = Visibility.Collapsed;
-                TextBox_FrontText.Visibility = Visibility.Collapsed;
-                TextBox_BackText.Visibility = Visibility.Visible;
-                cardFacedFront = false;
-            }
-            else
-            {
-                cardFront.Visibility = Visibility.Visible;
-                await FlipToFront.BeginAsync();
-                cardBack.Visibility = Visibility.Collapsed;
-                TextBox_FrontText.Visibility = Visibility.Visible;
-                TextBox_BackText.Visibility = Visibility.Collapsed;
-                cardFacedFront = true;
-            }
-        }
+        //    if (cardFacedFront)
+        //    {
+        //        FlipToBack.BeginTime = new TimeSpan(0);
+        //        cardBack.Visibility = Visibility.Visible;
+        //        await FlipToBack.BeginAsync();
+        //        cardFront.Visibility = Visibility.Collapsed;
+        //        TextBox_FrontText.Visibility = Visibility.Collapsed;
+        //        TextBox_BackText.Visibility = Visibility.Visible;
+        //        cardFacedFront = false;
+        //    }
+        //    else
+        //    {
+        //        cardFront.Visibility = Visibility.Visible;
+        //        await FlipToFront.BeginAsync();
+        //        cardBack.Visibility = Visibility.Collapsed;
+        //        TextBox_FrontText.Visibility = Visibility.Visible;
+        //        TextBox_BackText.Visibility = Visibility.Collapsed;
+        //        cardFacedFront = true;
+        //    }
+        //}
 
         private void Button_EditDeck_Click(object sender, RoutedEventArgs e)
         {
@@ -237,25 +244,25 @@ namespace FlipNLearn
             ViewModel.instance.SelectedCard.Color = (GridViewColors.SelectedItem as ApprovedColor).Color;
         }
 
-        async private void Button_AddCard_Click(object sender, RoutedEventArgs e)
+        /*async*/ private void Button_AddCard_Click(object sender, RoutedEventArgs e)
         {
             Color defaultColor = ViewModel.instance.SelectedCard.Color;
             ViewModel.instance.SelectedDeck.Cards.Add(new Card() { Color = defaultColor });
             ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.LastOrDefault();
-            TextBlock_CardNumber.Text = ViewModel.instance.SelectedDeck.Cards.Count.ToString();
-            i = ViewModel.instance.SelectedDeck.Cards.Count;
+            //TextBlock_CardNumber.Text = ViewModel.instance.SelectedDeck.Cards.Count.ToString();
+            //i = ViewModel.instance.SelectedDeck.Cards.Count;
             StackPanel_CardArea.Visibility = Visibility.Visible;
             StackPanel_EditMode.Visibility = Visibility.Visible;
 
-            if (!cardFacedFront)
-            {
-                cardFront.Visibility = Visibility.Visible;
-                await FlipToFront.BeginAsync();
-                cardBack.Visibility = Visibility.Collapsed;
-                TextBox_FrontText.Visibility = Visibility.Visible;
-                TextBox_BackText.Visibility = Visibility.Collapsed;
-                cardFacedFront = true;
-            }
+            //if (!cardFacedFront)
+            //{
+            //    cardFront.Visibility = Visibility.Visible;
+            //    await FlipToFront.BeginAsync();
+            //    cardBack.Visibility = Visibility.Collapsed;
+            //    TextBox_FrontText.Visibility = Visibility.Visible;
+            //    TextBox_BackText.Visibility = Visibility.Collapsed;
+            //    cardFacedFront = true;
+            //}
         }
 
         private void Button_DeleteCard_Click(object sender, RoutedEventArgs e)
@@ -266,11 +273,11 @@ namespace FlipNLearn
             if (ViewModel.instance.SelectedDeck.Cards.Count != 0)
             {
                 ViewModel.instance.SelectedCard = ViewModel.instance.SelectedDeck.Cards.LastOrDefault();
-                TextBlock_CardNumber.Text = (ViewModel.instance.SelectedDeck.Cards.IndexOf(ViewModel.instance.SelectedDeck.Cards.LastOrDefault()) + 1).ToString();
+                //TextBlock_CardNumber.Text = (ViewModel.instance.SelectedDeck.Cards.IndexOf(ViewModel.instance.SelectedDeck.Cards.LastOrDefault()) + 1).ToString();
             }
             else
             {
-                TextBlock_CardNumber.Text = "0";
+                //TextBlock_CardNumber.Text = "0";
                 StackPanel_CardArea.Visibility = Visibility.Collapsed;
                 StackPanel_EditMode.Visibility = Visibility.Collapsed;
             }
@@ -294,25 +301,25 @@ namespace FlipNLearn
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            cardFront.Height = 125;
-            cardFront.Width = 200;
-            cardBack.Height = 125;
-            cardBack.Width = 200;
-            frontText.LineHeight = 22;
-            backText.LineHeight = 22;
-            frontText.FontSize = 18;
-            backText.FontSize = 18;
+            //cardFront.Height = 125;
+            //cardFront.Width = 200;
+            //cardBack.Height = 125;
+            //cardBack.Width = 200;
+            //frontText.LineHeight = 22;
+            //backText.LineHeight = 22;
+            //frontText.FontSize = 18;
+            //backText.FontSize = 18;
         }
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            cardFront.Height = 250;
-            cardFront.Width = Window.Current.Bounds.Width;
-            cardBack.Height = 250;
-            cardBack.Width = Window.Current.Bounds.Width;
-            frontText.LineHeight = 45;
-            backText.LineHeight = 45;
-            frontText.FontSize = 36;
-            backText.FontSize = 36;
+            //cardFront.Height = 250;
+            //cardFront.Width = Window.Current.Bounds.Width;
+            //cardBack.Height = 250;
+            //cardBack.Width = Window.Current.Bounds.Width;
+            //frontText.LineHeight = 45;
+            //backText.LineHeight = 45;
+            //frontText.FontSize = 36;
+            //backText.FontSize = 36;
         }
 
     }
